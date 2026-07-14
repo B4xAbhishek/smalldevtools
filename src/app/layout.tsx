@@ -67,6 +67,25 @@ const themeInitScript = `
 })();
 `;
 
+/** Runs before paint — kills leftover SWs that flood localhost Network tab */
+const swKillScript = `
+(function(){
+  try {
+    var h = location.hostname;
+    var local = h === 'localhost' || h === '127.0.0.1' || h === '[::1]';
+    if (!local || !('serviceWorker' in navigator)) return;
+    navigator.serviceWorker.getRegistrations().then(function(regs){
+      return Promise.all(regs.map(function(r){ return r.unregister(); }));
+    }).then(function(){
+      if (!('caches' in window)) return;
+      return caches.keys().then(function(keys){
+        return Promise.all(keys.map(function(k){ return caches.delete(k); }));
+      });
+    }).catch(function(){});
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -76,6 +95,7 @@ export default function RootLayout({
     <html lang="en" className="h-full antialiased" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script dangerouslySetInnerHTML={{ __html: swKillScript }} />
       </head>
       <body
         className="site-shell flex min-h-dvh flex-col"
