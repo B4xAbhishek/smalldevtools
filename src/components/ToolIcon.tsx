@@ -3,9 +3,11 @@ import {
   Camera,
   CircleDot,
   Clapperboard,
+  Dices,
   Eraser,
   QrCode,
   Music2,
+  Sparkles,
   type LucideIcon,
 } from "lucide-react";
 import type { ToolIconName } from "@/lib/tools";
@@ -18,6 +20,8 @@ const map: Record<ToolIconName, LucideIcon> = {
   bg: Eraser,
   qr: QrCode,
   extract: Music2,
+  dice: Dices,
+  seven: Sparkles,
 };
 
 export function ToolIcon({

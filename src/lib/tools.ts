@@ -1,4 +1,9 @@
-export type ToolCategory = "document" | "audio" | "video" | "utility";
+export type ToolCategory =
+  | "document"
+  | "audio"
+  | "video"
+  | "utility"
+  | "games";
 
 export type ToolIconName =
   | "audio"
@@ -7,7 +12,9 @@ export type ToolIconName =
   | "video"
   | "bg"
   | "qr"
-  | "extract";
+  | "extract"
+  | "dice"
+  | "seven";
 
 export type ToolMeta = {
   slug: string;
@@ -30,6 +37,7 @@ export const CATEGORIES: { id: "all" | ToolCategory; label: string }[] = [
   { id: "audio", label: "Audio" },
   { id: "video", label: "Video" },
   { id: "utility", label: "Utility" },
+  { id: "games", label: "Games" },
 ];
 
 export const tools: ToolMeta[] = [
@@ -111,10 +119,32 @@ export const tools: ToolMeta[] = [
     tagline: "Heads or tails",
     description:
       "Need a quick toss? Flip a fair coin for decisions, games, or settling a debate.",
-    category: "utility",
+    category: "games",
     icon: "coin",
     accent: "#FF9F0A",
     keywords: ["coin flip", "toss", "heads tails"],
+  },
+  {
+    slug: "dice-roller",
+    name: "Dice Roller",
+    tagline: "Random dice",
+    description:
+      "Roll 1–6 dice at once. Fair random rolls for board games, D&D warmups, or quick decisions.",
+    category: "games",
+    icon: "dice",
+    accent: "#FF375F",
+    keywords: ["dice", "roller", "random", "d6"],
+  },
+  {
+    slug: "seven-up-down",
+    name: "7 Up 7 Down",
+    tagline: "Predict then roll",
+    description:
+      "Pick 7 Down (under 7), 7 (exact), or 7 Up (over 7), then roll two dice and see if you win.",
+    category: "games",
+    icon: "seven",
+    accent: "#BF5AF2",
+    keywords: ["7 up 7 down", "dice game", "predict"],
   },
 ];
 

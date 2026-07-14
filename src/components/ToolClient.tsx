@@ -11,6 +11,8 @@ import { VideoCutter } from "@/components/tools/VideoCutter";
 import { QrCodeGenerator } from "@/components/tools/QrCodeGenerator";
 import { BackgroundRemover } from "@/components/tools/BackgroundRemover";
 import { ExtractAudio } from "@/components/tools/ExtractAudio";
+import { DiceRoller } from "@/components/tools/DiceRoller";
+import { SevenUpDown } from "@/components/tools/SevenUpDown";
 import { getTool } from "@/lib/tools";
 import { ToolIcon } from "@/components/ToolIcon";
 
@@ -30,6 +32,10 @@ function ToolBody({ slug }: { slug: string }) {
       return <BackgroundRemover />;
     case "extract-audio":
       return <ExtractAudio />;
+    case "dice-roller":
+      return <DiceRoller />;
+    case "seven-up-down":
+      return <SevenUpDown />;
     default:
       return null;
   }
