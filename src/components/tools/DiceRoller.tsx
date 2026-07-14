@@ -1,9 +1,8 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { DiceStage, HdDie } from "@/components/HdDie";
 import { track } from "@/lib/analytics";
-
-const FACES = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"] as const;
 
 function rollDie() {
   return 1 + Math.floor(Math.random() * 6);
@@ -39,12 +38,17 @@ export function DiceRoller() {
         <label htmlFor="dice-count" className="mb-2 block text-sm font-medium text-text">
           Number of dice
         </label>
-        <div className="flex flex-wrap gap-2">
+        <div
+          id="dice-count"
+          role="group"
+          aria-label="Number of dice"
+          className="flex flex-wrap gap-2"
+        >
           {[1, 2, 3, 4, 5, 6].map((n) => (
             <button
               key={n}
               type="button"
-              className={`btn min-h-10 min-w-10 px-3 text-sm ${
+              className={`btn min-h-11 min-w-11 touch-manipulation px-3 text-sm ${
                 count === n ? "btn-primary" : "btn-secondary"
               }`}
               onClick={() => {
@@ -52,6 +56,8 @@ export function DiceRoller() {
                 setValues(Array.from({ length: n }, () => 1));
               }}
               disabled={rolling}
+              aria-pressed={count === n}
+              aria-label={`${n} ${n === 1 ? "die" : "dice"}`}
             >
               {n}
             </button>
@@ -59,21 +65,17 @@ export function DiceRoller() {
         </div>
       </div>
 
-      <div
-        className="flex flex-wrap items-center justify-center gap-2 py-3 sm:gap-3 sm:py-4"
-        aria-live="polite"
-      >
-        {values.map((v, i) => (
-          <span
-            key={`${i}-${v}-${rolling}`}
-            className={`flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-surface text-4xl shadow-sm transition sm:h-20 sm:w-20 sm:rounded-2xl sm:text-5xl ${
-              rolling ? "scale-105 animate-pulse" : ""
-            }`}
-            style={{ fontFamily: "serif" }}
-          >
-            {FACES[v - 1]}
-          </span>
-        ))}
+      <div aria-live="polite" aria-atomic="true">
+        <DiceStage>
+          {values.map((v, i) => (
+            <HdDie
+              key={`${i}-${rolling ? "r" : "s"}`}
+              value={v}
+              rolling={rolling}
+              size={count > 4 ? "sm" : "md"}
+            />
+          ))}
+        </DiceStage>
       </div>
 
       <div className="text-center">
@@ -85,9 +87,10 @@ export function DiceRoller() {
 
       <button
         type="button"
-        className="btn btn-primary w-full"
+        className="btn btn-primary w-full min-h-11 touch-manipulation text-base"
         onClick={roll}
         disabled={rolling}
+        aria-busy={rolling}
       >
         {rolling ? "Rolling…" : "Roll dice"}
       </button>

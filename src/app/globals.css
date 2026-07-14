@@ -281,3 +281,42 @@ html[data-embed="1"] header,
 html[data-embed="1"] footer {
   display: none !important;
 }
+
+/* HD dice — premium 3D face + roll motion (respects reduced-motion above) */
+.hd-die {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    0 8px 20px rgba(0, 0, 0, 0.18),
+    0 0 0 1px rgba(0, 0, 0, 0.06);
+  transform: translateZ(0);
+  isolation: isolate;
+}
+
+.dark .hd-die {
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.5),
+    0 10px 28px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+@keyframes hd-die-roll {
+  0% {
+    transform: rotate(-8deg) scale(1.02);
+  }
+  25% {
+    transform: rotate(10deg) scale(1.06);
+  }
+  50% {
+    transform: rotate(-6deg) scale(1.03);
+  }
+  75% {
+    transform: rotate(8deg) scale(1.05);
+  }
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+}
+
+.hd-die--rolling {
+  animation: hd-die-roll 0.28s ease-out infinite;
+}

@@ -1,9 +1,8 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { DiceStage, HdDie } from "@/components/HdDie";
 import { track } from "@/lib/analytics";
-
-const FACES = ["⚀", "⚁", "⚂", "⚃", "⚄", "⚅"] as const;
 
 export type SevenBet = "down" | "seven" | "up";
 
@@ -79,7 +78,8 @@ export function SevenUpDown() {
                 setBet(opt.id);
                 setResult(null);
               }}
-              className={`min-h-[4.25rem] rounded-xl border px-1.5 py-2.5 text-center transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:min-h-0 sm:px-2 sm:py-3 ${
+              aria-pressed={bet === opt.id}
+              className={`min-h-[4.25rem] touch-manipulation rounded-xl border px-1.5 py-2.5 text-center transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:min-h-0 sm:px-2 sm:py-3 ${
                 bet === opt.id
                   ? "border-primary bg-primary text-white"
                   : "border-border bg-muted text-text hover:border-border-strong"
@@ -103,23 +103,19 @@ export function SevenUpDown() {
 
       <div>
         <p className="mb-3 text-sm font-medium text-text">2. Roll two dice</p>
-        <div
-          className="flex items-center justify-center gap-3 py-2 sm:gap-4"
-          aria-live="polite"
-        >
-          {dice.map((v, i) => (
-            <span
-              key={`${i}-${v}-${rolling}`}
-              className={`flex h-16 w-16 items-center justify-center rounded-xl border border-border bg-surface text-5xl shadow-sm sm:h-24 sm:w-24 sm:rounded-2xl sm:text-6xl ${
-                rolling ? "animate-pulse" : ""
-              }`}
-              style={{ fontFamily: "serif" }}
-            >
-              {FACES[v - 1]}
-            </span>
-          ))}
+        <div aria-live="polite" aria-atomic="true">
+          <DiceStage>
+            {dice.map((v, i) => (
+              <HdDie
+                key={`${i}-${rolling ? "r" : "s"}`}
+                value={v}
+                rolling={rolling}
+                size="lg"
+              />
+            ))}
+          </DiceStage>
         </div>
-        <p className="mt-2 text-center text-sm text-text-muted">
+        <p className="mt-3 text-center text-sm text-text-muted">
           Sum{" "}
           <span className="font-medium tabular-nums text-text">{sum}</span>
         </p>
@@ -127,9 +123,10 @@ export function SevenUpDown() {
 
       <button
         type="button"
-        className="btn btn-primary w-full"
+        className="btn btn-primary w-full min-h-11 touch-manipulation text-base"
         onClick={roll}
         disabled={!bet || rolling}
+        aria-busy={rolling}
       >
         {!bet ? "Pick 7 Down, 7, or 7 Up first" : rolling ? "Rolling…" : "Roll"}
       </button>
