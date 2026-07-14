@@ -40,34 +40,10 @@ export function ToolChrome({ tool }: { tool: ToolMeta }) {
 
   return (
     <div className="mb-4 flex flex-wrap items-center gap-2">
-      <button
-        type="button"
-        className="btn btn-secondary min-h-10 flex-1 px-3 text-sm sm:flex-none"
-        onClick={toggleFav}
-        aria-pressed={isFav}
-      >
-        <Star
-          size={16}
-          aria-hidden
-          className={isFav ? "fill-cta text-cta" : ""}
-        />
-        <span className="sm:hidden">{isFav ? "Saved" : "Save"}</span>
-        <span className="hidden sm:inline">{isFav ? "Favorited" : "Favorite"}</span>
-      </button>
-
-      <button
-        type="button"
-        className="btn btn-secondary min-h-10 flex-1 px-3 text-sm sm:flex-none"
-        onClick={copyLink}
-      >
-        {copied ? <Check size={16} aria-hidden /> : <Copy size={16} aria-hidden />}
-        {copied ? "Copied" : "Copy link"}
-      </button>
-
       {tool.batch && (
         <button
           type="button"
-          className={`btn min-h-10 w-full px-3 text-sm sm:w-auto ${batch ? "btn-primary" : "btn-secondary"}`}
+          className={`btn min-h-10 px-3 text-sm ${batch ? "btn-primary" : "btn-secondary"}`}
           onClick={() => setBatch((v) => !v)}
           aria-pressed={batch}
         >
@@ -75,6 +51,35 @@ export function ToolChrome({ tool }: { tool: ToolMeta }) {
           Batch {batch ? "on" : "off"}
         </button>
       )}
+
+      <div className="ml-auto flex shrink-0 items-center gap-2">
+        <button
+          type="button"
+          className="btn btn-secondary h-10 w-10 min-h-10 shrink-0 p-0"
+          onClick={toggleFav}
+          aria-pressed={isFav}
+          aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
+        >
+          <Star
+            size={16}
+            aria-hidden
+            className={isFav ? "fill-cta text-cta" : ""}
+          />
+        </button>
+
+        <button
+          type="button"
+          className="btn btn-secondary h-10 w-10 min-h-10 shrink-0 p-0"
+          onClick={copyLink}
+          aria-label={copied ? "Link copied" : "Copy link"}
+        >
+          {copied ? (
+            <Check size={16} aria-hidden />
+          ) : (
+            <Copy size={16} aria-hidden />
+          )}
+        </button>
+      </div>
 
       {tool.shareParams?.length ? (
         <p className="w-full text-xs text-text-muted">
