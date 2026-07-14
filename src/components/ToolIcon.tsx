@@ -5,6 +5,9 @@ import {
   Clapperboard,
   Dices,
   Eraser,
+  Grid3x3,
+  Hand,
+  Hash,
   QrCode,
   Music2,
   Sparkles,
@@ -22,6 +25,9 @@ const map: Record<ToolIconName, LucideIcon> = {
   extract: Music2,
   dice: Dices,
   seven: Sparkles,
+  rps: Hand,
+  guess: Hash,
+  tictactoe: Grid3x3,
 };
 
 export function ToolIcon({

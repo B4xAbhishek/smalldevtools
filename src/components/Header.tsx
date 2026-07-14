@@ -24,10 +24,10 @@ function HeaderInner() {
         </Link>
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <Link
-            href="/suggest"
+            href="/feedback"
             className="hidden text-sm text-text-muted hover:text-text sm:inline"
           >
-            Suggest a tool
+            Feedback
           </Link>
           <ThemeToggle />
         </div>

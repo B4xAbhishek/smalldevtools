@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { AppProviders } from "@/components/AppProviders";
 import { Analytics } from "@/components/Analytics";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
+import { VisitorCounter } from "@/components/VisitorCounter";
 import { SITE_NAME, SITE_URL } from "@/lib/tools";
 import "./globals.css";
 
@@ -91,12 +92,13 @@ export default function RootLayout({
           </main>
           <footer className="border-t border-border pb-[env(safe-area-inset-bottom)]">
             <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 text-sm text-text-muted sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-3 sm:px-6">
-              <p>
+              <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
                 <span className="text-text">{SITE_NAME}</span>
+                <VisitorCounter />
               </p>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                <a href="/suggest" className="hover:text-text">
-                  Suggest a tool
+                <a href="/feedback" className="hover:text-text">
+                  Feedback
                 </a>
                 <span>Files stay on your device</span>
               </div>

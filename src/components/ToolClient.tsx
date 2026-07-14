@@ -13,6 +13,9 @@ import { BackgroundRemover } from "@/components/tools/BackgroundRemover";
 import { ExtractAudio } from "@/components/tools/ExtractAudio";
 import { DiceRoller } from "@/components/tools/DiceRoller";
 import { SevenUpDown } from "@/components/tools/SevenUpDown";
+import { RockPaperScissors } from "@/components/tools/RockPaperScissors";
+import { NumberGuess } from "@/components/tools/NumberGuess";
+import { TicTacToe } from "@/components/tools/TicTacToe";
 import { getTool } from "@/lib/tools";
 import { ToolIcon } from "@/components/ToolIcon";
 
@@ -36,6 +39,12 @@ function ToolBody({ slug }: { slug: string }) {
       return <DiceRoller />;
     case "seven-up-down":
       return <SevenUpDown />;
+    case "rock-paper-scissors":
+      return <RockPaperScissors />;
+    case "number-guess":
+      return <NumberGuess />;
+    case "tic-tac-toe":
+      return <TicTacToe />;
     default:
       return null;
   }

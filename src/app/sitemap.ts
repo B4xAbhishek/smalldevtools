@@ -11,10 +11,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${SITE_URL}/suggest`,
+      url: `${SITE_URL}/feedback`,
       lastModified: now,
       changeFrequency: "monthly",
       priority: 0.4,
+    },
+    {
+      url: `${SITE_URL}/suggest`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.3,
     },
     ...tools.map((t) => ({
       url: `${SITE_URL}/tools/${t.slug}`,

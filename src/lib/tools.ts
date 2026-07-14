@@ -14,7 +14,10 @@ export type ToolIconName =
   | "qr"
   | "extract"
   | "dice"
-  | "seven";
+  | "seven"
+  | "rps"
+  | "guess"
+  | "tictactoe";
 
 export type ToolMeta = {
   slug: string;
@@ -145,6 +148,39 @@ export const tools: ToolMeta[] = [
     icon: "seven",
     accent: "#BF5AF2",
     keywords: ["7 up 7 down", "dice game", "predict"],
+  },
+  {
+    slug: "rock-paper-scissors",
+    name: "Rock Paper Scissors",
+    tagline: "Classic showdown",
+    description:
+      "Pick rock, paper, or scissors and play against a fair random opponent. Track your wins and losses.",
+    category: "games",
+    icon: "rps",
+    accent: "#64D2FF",
+    keywords: ["rock paper scissors", "rps", "game"],
+  },
+  {
+    slug: "number-guess",
+    name: "Number Guessing",
+    tagline: "1 to 100",
+    description:
+      "Guess the secret number between 1 and 100. Too high / too low hints until you nail it.",
+    category: "games",
+    icon: "guess",
+    accent: "#30D158",
+    keywords: ["number guessing", "guess", "1 to 100"],
+  },
+  {
+    slug: "tic-tac-toe",
+    name: "Tic Tac Toe",
+    tagline: "X vs O",
+    description:
+      "Classic 3×3 tic-tac-toe for two players on the same device. Take turns and get three in a row.",
+    category: "games",
+    icon: "tictactoe",
+    accent: "#FF9F0A",
+    keywords: ["tic tac toe", "noughts crosses", "xo"],
   },
 ];
 
