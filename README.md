@@ -52,4 +52,4 @@ vercel env add MONGODB_URI production --scope b4xabhisheks-projects
 
 ## Deploy
 
-https://smalldevtools.vercel.app
+https://tinykit.vercel.app

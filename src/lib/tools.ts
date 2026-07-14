@@ -18,7 +18,8 @@ export type ToolIconName =
   | "rps"
   | "guess"
   | "tictactoe"
-  | "ip";
+  | "ip"
+  | "location";
 
 export type ToolMeta = {
   slug: string;
@@ -129,6 +130,24 @@ export const tools: ToolMeta[] = [
     keywords: ["ip address", "whats my ip", "public ip", "network"],
   },
   {
+    slug: "whats-my-location",
+    name: "What's my exact location",
+    tagline: "GPS coordinates",
+    description:
+      "Get your exact latitude and longitude from your device. Copy coordinates or open them on a map — all in your browser.",
+    category: "utility",
+    icon: "location",
+    accent: "#34C759",
+    keywords: [
+      "location",
+      "gps",
+      "coordinates",
+      "latitude",
+      "longitude",
+      "whats my location",
+    ],
+  },
+  {
     slug: "coin-flip",
     name: "Coin Flip",
     tagline: "Heads or tails",
@@ -207,4 +226,4 @@ export function filterTools(category: "all" | ToolCategory) {
 
 export const SITE_NAME = "TinyKit";
 export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ?? "https://smalldevtools.vercel.app";
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://tinykit.vercel.app";
