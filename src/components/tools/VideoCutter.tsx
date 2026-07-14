@@ -2,20 +2,38 @@
 
 import { fetchFile } from "@ffmpeg/util";
 import { Download, Loader2, Scissors, Upload } from "lucide-react";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { downloadBlob, getFFmpeg } from "@/lib/ffmpeg";
 
 export function VideoCutter() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const inputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
-  const [start, setStart] = useState("0");
-  const [end, setEnd] = useState("10");
+  const [start, setStart] = useState(searchParams.get("start") ?? "0");
+  const [end, setEnd] = useState(searchParams.get("end") ?? "10");
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState("Waiting for a video");
   const [drag, setDrag] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const s = searchParams.get("start");
+    const e = searchParams.get("end");
+    if (s != null) setStart(s);
+    if (e != null) setEnd(e);
+  }, [searchParams]);
+
+  const syncShare = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("start", start);
+    params.set("end", end);
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   const onFile = (f: File | null) => {
     setError(null);
@@ -155,6 +173,7 @@ export function VideoCutter() {
             step="0.1"
             value={start}
             onChange={(e) => setStart(e.target.value)}
+            onBlur={syncShare}
           />
           <p className="mt-1.5 text-sm text-text-muted">Example: 0 for the beginning</p>
         </div>
@@ -170,10 +189,15 @@ export function VideoCutter() {
             step="0.1"
             value={end}
             onChange={(e) => setEnd(e.target.value)}
+            onBlur={syncShare}
           />
           <p className="mt-1.5 text-sm text-text-muted">Example: 10 for ten seconds in</p>
         </div>
       </div>
+
+      <button type="button" className="btn btn-secondary text-sm" onClick={syncShare}>
+        Update share link (?start=&end=)
+      </button>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <button

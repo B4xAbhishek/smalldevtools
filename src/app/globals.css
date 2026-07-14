@@ -271,11 +271,7 @@ body {
   font-size: 0.95rem;
 }
 
-.alert-info {
-  border-radius: 10px;
-  border: 1px solid var(--alert-info-border);
-  background: var(--alert-info-bg);
-  color: var(--alert-info-text);
-  padding: 0.8rem 1rem;
-  font-size: 0.95rem;
+html[data-embed="1"] header,
+html[data-embed="1"] footer {
+  display: none !important;
 }

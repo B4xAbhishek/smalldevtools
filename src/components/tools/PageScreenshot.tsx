@@ -1,13 +1,29 @@
 "use client";
 
 import { Camera, ExternalLink, Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 export function PageScreenshot() {
-  const [url, setUrl] = useState("");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+  const [url, setUrl] = useState(searchParams.get("url") ?? "");
   const [busy, setBusy] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const u = searchParams.get("url");
+    if (u != null) setUrl(u);
+  }, [searchParams]);
+
+  const syncShare = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (url.trim()) params.set("url", url.trim());
+    else params.delete("url");
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false });
+  };
 
   const capture = async () => {
     setError(null);
@@ -72,6 +88,7 @@ export function PageScreenshot() {
             placeholder="example.com"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
+            onBlur={syncShare}
             onKeyDown={(e) => {
               if (e.key === "Enter") capture();
             }}

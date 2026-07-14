@@ -1,12 +1,48 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Header } from "@/components/Header";
 import { AppProviders } from "@/components/AppProviders";
+import { Analytics } from "@/components/Analytics";
+import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
+import { SITE_NAME, SITE_URL } from "@/lib/tools";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SmallDevTools — Free online tools",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: `${SITE_NAME} — Free online tools`,
+    template: `%s | ${SITE_NAME}`,
+  },
   description:
-    "Simple free tools: convert Opus to MP3, cut video, flip a coin, capture web pages, and more.",
+    "Free browser tools: remove backgrounds, generate QR codes, extract audio, convert Opus to MP3, cut video, and more. No signup.",
+  applicationName: SITE_NAME,
+  appleWebApp: {
+    capable: true,
+    title: SITE_NAME,
+    statusBarStyle: "default",
+  },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    title: `${SITE_NAME} — Free online tools`,
+    description:
+      "Free browser tools for everyday tasks. Privacy-friendly. No signup.",
+    url: SITE_URL,
+  },
+  twitter: {
+    card: "summary",
+    title: `${SITE_NAME} — Free online tools`,
+    description: "Free browser tools for everyday tasks.",
+  },
+  robots: { index: true, follow: true },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#f5f5f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+  width: "device-width",
+  initialScale: 1,
 };
 
 const themeInitScript = `
@@ -39,16 +75,23 @@ export default function RootLayout({
         }}
       >
         <AppProviders>
+          <Analytics />
+          <ServiceWorkerRegister />
           <Header />
           <main id="main" className="flex-1">
             {children}
           </main>
           <footer className="border-t border-border">
-            <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-5 text-sm text-text-muted sm:px-6">
+            <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-5 text-sm text-text-muted sm:px-6">
               <p>
-                <span className="text-text">SmallDevTools</span>
+                <span className="text-text">{SITE_NAME}</span>
               </p>
-              <p>Files stay on your device</p>
+              <div className="flex gap-4">
+                <a href="/suggest" className="hover:text-text">
+                  Suggest a tool
+                </a>
+                <span>Files stay on your device</span>
+              </div>
             </div>
           </footer>
         </AppProviders>

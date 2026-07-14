@@ -3,66 +3,79 @@
 import { fetchFile } from "@ffmpeg/util";
 import { Download, Loader2, Upload } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
+import { useAtomValue } from "jotai";
 import { downloadBlob, getFFmpeg } from "@/lib/ffmpeg";
+import { batchModeAtom } from "@/state/atoms";
+import { track } from "@/lib/analytics";
+
+function isOpus(f: File) {
+  return (
+    f.name.toLowerCase().endsWith(".opus") ||
+    f.type === "audio/opus" ||
+    f.type === "audio/ogg"
+  );
+}
 
 export function OpusToMp3() {
+  const batch = useAtomValue(batchModeAtom);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState<File | null>(null);
+  const [files, setFiles] = useState<File[]>([]);
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState("Waiting for a file");
   const [drag, setDrag] = useState(false);
 
-  const onFile = (f: File | null) => {
+  const onFiles = (list: FileList | null) => {
     setError(null);
-    if (!f) return;
-    const ok =
-      f.name.toLowerCase().endsWith(".opus") ||
-      f.type === "audio/opus" ||
-      f.type === "audio/ogg";
-    if (!ok) {
-      setError("Please choose an .opus file (or an OGG Opus file).");
+    if (!list) return;
+    const picked = Array.from(list).filter(isOpus);
+    if (!picked.length) {
+      setError("Please choose .opus (or OGG Opus) files.");
       return;
     }
-    setFile(f);
-    setStatus(`Ready: ${f.name}`);
+    setFiles(batch ? picked.slice(0, 10) : picked.slice(0, 1));
+    setStatus(`Ready: ${picked.length} file(s)`);
   };
 
   const convert = useCallback(async () => {
-    if (!file) return;
+    if (!files.length) return;
     setBusy(true);
     setError(null);
     setProgress(0);
-    setStatus("Loading converter… first time can take a moment");
+    setStatus("Loading converter…");
 
     try {
       const ffmpeg = await getFFmpeg((p) => setProgress(Math.round(p * 100)));
-      setStatus("Converting to MP3…");
-      const inputName = "input.opus";
-      const outputName = "output.mp3";
-      await ffmpeg.writeFile(inputName, await fetchFile(file));
-      await ffmpeg.exec([
-        "-i",
-        inputName,
-        "-codec:a",
-        "libmp3lame",
-        "-q:a",
-        "2",
-        outputName,
-      ]);
-      const data = await ffmpeg.readFile(outputName);
-      const bytes =
-        data instanceof Uint8Array
-          ? new Uint8Array(data)
-          : new TextEncoder().encode(String(data));
-      const blob = new Blob([bytes.buffer], { type: "audio/mpeg" });
-      const outName =
-        file.name.replace(/\.opus$/i, "").replace(/\.ogg$/i, "") + ".mp3";
-      downloadBlob(blob, outName);
-      setStatus(`Done — downloaded ${outName}`);
-      await ffmpeg.deleteFile(inputName);
-      await ffmpeg.deleteFile(outputName);
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        setStatus(`Converting ${i + 1}/${files.length}: ${file.name}`);
+        const inputName = `input_${i}.opus`;
+        const outputName = `output_${i}.mp3`;
+        await ffmpeg.writeFile(inputName, await fetchFile(file));
+        await ffmpeg.exec([
+          "-i",
+          inputName,
+          "-codec:a",
+          "libmp3lame",
+          "-q:a",
+          "2",
+          outputName,
+        ]);
+        const data = await ffmpeg.readFile(outputName);
+        const bytes =
+          data instanceof Uint8Array
+            ? new Uint8Array(data)
+            : new TextEncoder().encode(String(data));
+        const blob = new Blob([bytes.buffer], { type: "audio/mpeg" });
+        const outName =
+          file.name.replace(/\.opus$/i, "").replace(/\.ogg$/i, "") + ".mp3";
+        downloadBlob(blob, outName);
+        await ffmpeg.deleteFile(inputName);
+        await ffmpeg.deleteFile(outputName);
+      }
+      setStatus(`Done — downloaded ${files.length} MP3(s)`);
+      track("opus_converted", { count: files.length });
     } catch (e) {
       setError(
         e instanceof Error
@@ -73,14 +86,14 @@ export function OpusToMp3() {
     } finally {
       setBusy(false);
     }
-  }, [file]);
+  }, [files]);
 
   return (
     <div className="space-y-5">
       <div
         role="button"
         tabIndex={0}
-        className={`dropzone flex cursor-pointer flex-col items-center justify-center px-5 py-12 text-center outline-none focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-ring ${drag ? "active" : ""}`}
+        className={`dropzone flex cursor-pointer flex-col items-center justify-center px-5 py-12 text-center outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${drag ? "active" : ""}`}
         onDragOver={(e) => {
           e.preventDefault();
           setDrag(true);
@@ -89,7 +102,7 @@ export function OpusToMp3() {
         onDrop={(e) => {
           e.preventDefault();
           setDrag(false);
-          onFile(e.dataTransfer.files?.[0] ?? null);
+          onFiles(e.dataTransfer.files);
         }}
         onClick={() => inputRef.current?.click()}
         onKeyDown={(e) => {
@@ -100,32 +113,38 @@ export function OpusToMp3() {
         }}
       >
         <Upload className="mb-3 text-primary" size={32} aria-hidden />
-        <p className="text-lg font-bold text-text">Drop your .opus file here</p>
+        <p className="text-lg font-medium text-text">
+          {batch ? "Drop .opus files" : "Drop your .opus file here"}
+        </p>
         <p className="mt-2 text-base text-text-muted">
-          or tap to choose a file from your device
+          or tap to choose · conversion runs in your browser
         </p>
         <input
           ref={inputRef}
           type="file"
           accept=".opus,audio/opus,audio/ogg"
+          multiple={batch}
           className="hidden"
-          onChange={(e) => onFile(e.target.files?.[0] ?? null)}
+          onChange={(e) => onFiles(e.target.files)}
         />
       </div>
 
-      {file && (
-        <p className="text-base text-text-muted">
-          Selected:{" "}
-          <span className="font-bold text-text">{file.name}</span>{" "}
-          <span>({(file.size / 1024).toFixed(1)} KB)</span>
-        </p>
+      {files.length > 0 && (
+        <ul className="space-y-1 text-sm text-text-muted">
+          {files.map((f) => (
+            <li key={f.name + f.size}>
+              <span className="font-medium text-text">{f.name}</span>{" "}
+              ({(f.size / 1024).toFixed(1)} KB)
+            </li>
+          ))}
+        </ul>
       )}
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <button
           type="button"
           className="btn btn-primary"
-          disabled={!file || busy}
+          disabled={!files.length || busy}
           onClick={convert}
         >
           {busy ? (
@@ -147,11 +166,17 @@ export function OpusToMp3() {
 
       {busy && (
         <div>
-          <div className="mb-2 flex justify-between text-sm font-bold text-text-muted">
+          <div className="mb-2 flex justify-between text-sm font-medium text-text-muted">
             <span>Progress</span>
             <span className="tabular-nums">{progress}%</span>
           </div>
-          <div className="progress-track" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
+          <div
+            className="progress-track"
+            role="progressbar"
+            aria-valuenow={progress}
+            aria-valuemin={0}
+            aria-valuemax={100}
+          >
             <div className="progress-fill" style={{ width: `${progress}%` }} />
           </div>
         </div>
@@ -162,11 +187,6 @@ export function OpusToMp3() {
           {error}
         </p>
       )}
-
-      <p className="alert-info">
-        Tip: conversion happens on your device. Large files may take longer the
-        first time while the converter loads.
-      </p>
     </div>
   );
 }

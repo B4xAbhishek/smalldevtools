@@ -23,7 +23,7 @@ export function CardRevealComposition({ accent }: CardRevealProps) {
 
   const scale = interpolate(enter, [0, 1], [0.55, 1]);
   const opacity = interpolate(enter, [0, 1], [0, 1]);
-  const ring = interpolate(frame, [0, 24], [0, 8], {
+  const ring = interpolate(frame, [0, 24], [0, 6], {
     extrapolateRight: "clamp",
   });
   const ringOpacity = interpolate(frame, [0, 24], [0.45, 0], {
@@ -40,8 +40,8 @@ export function CardRevealComposition({ accent }: CardRevealProps) {
     >
       <div
         style={{
-          width: 40,
-          height: 40,
+          width: 32,
+          height: 32,
           borderRadius: "50%",
           transform: `scale(${scale})`,
           opacity,

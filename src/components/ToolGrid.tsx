@@ -1,21 +1,29 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Search, Star } from "lucide-react";
 import { useMemo } from "react";
 import { useAtom } from "jotai";
 import {
   CATEGORIES,
   filterTools,
+  getTool,
   tools,
   type ToolCategory,
 } from "@/lib/tools";
 import { CategoryTabs } from "@/components/CategoryTabs";
 import { ToolCard } from "@/components/ToolCard";
-import { toolCategoryAtom, toolSearchAtom } from "@/state/atoms";
+import {
+  favoriteToolsAtom,
+  recentToolsAtom,
+  toolCategoryAtom,
+  toolSearchAtom,
+} from "@/state/atoms";
 
 export function ToolGrid() {
   const [category, setCategory] = useAtom(toolCategoryAtom);
   const [query, setQuery] = useAtom(toolSearchAtom);
+  const [favorites] = useAtom(favoriteToolsAtom);
+  const [recent] = useAtom(recentToolsAtom);
 
   const counts = useMemo(() => {
     return Object.fromEntries(
@@ -32,12 +40,21 @@ export function ToolGrid() {
         t.name.toLowerCase().includes(q) ||
         t.description.toLowerCase().includes(q) ||
         t.tagline.toLowerCase().includes(q) ||
-        t.category.toLowerCase().includes(q),
+        t.category.toLowerCase().includes(q) ||
+        t.keywords?.some((k) => k.includes(q)),
     );
   }, [category, query]);
 
+  const favoriteTools = favorites
+    .map((s) => getTool(s))
+    .filter(Boolean) as typeof tools;
+  const recentTools = recent
+    .map((s) => getTool(s))
+    .filter(Boolean)
+    .slice(0, 4) as typeof tools;
+
   return (
-    <section id="tools" className="mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10">
+    <section id="tools" className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
       <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <h1 className="text-2xl font-medium tracking-tight text-text sm:text-3xl">
@@ -67,9 +84,39 @@ export function ToolGrid() {
         </div>
       </div>
 
+      {(favoriteTools.length > 0 || recentTools.length > 0) && (
+        <div className="mb-6 space-y-4">
+          {favoriteTools.length > 0 && (
+            <div>
+              <p className="mb-2 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-text-muted">
+                <Star size={12} className="fill-cta text-cta" aria-hidden />
+                Favorites
+              </p>
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
+                {favoriteTools.map((tool, i) => (
+                  <ToolCard key={`fav-${tool.slug}`} tool={tool} index={i} />
+                ))}
+              </div>
+            </div>
+          )}
+          {recentTools.length > 0 && (
+            <div>
+              <p className="mb-2 text-xs font-medium uppercase tracking-wide text-text-muted">
+                Recently used
+              </p>
+              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
+                {recentTools.map((tool, i) => (
+                  <ToolCard key={`recent-${tool.slug}`} tool={tool} index={i} />
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       <CategoryTabs active={category} onChange={setCategory} counts={counts} />
 
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
+      <div className="mt-5 grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
         {visible.map((tool, i) => (
           <ToolCard key={tool.slug} tool={tool} index={i} />
         ))}

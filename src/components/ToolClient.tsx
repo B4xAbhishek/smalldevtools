@@ -1,0 +1,103 @@
+"use client";
+
+import { Suspense, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
+import { useTrackToolVisit } from "@/hooks/useTrackToolVisit";
+import { ToolChrome } from "@/components/ToolChrome";
+import { OpusToMp3 } from "@/components/tools/OpusToMp3";
+import { CoinFlip } from "@/components/tools/CoinFlip";
+import { PageScreenshot } from "@/components/tools/PageScreenshot";
+import { VideoCutter } from "@/components/tools/VideoCutter";
+import { QrCodeGenerator } from "@/components/tools/QrCodeGenerator";
+import { BackgroundRemover } from "@/components/tools/BackgroundRemover";
+import { ExtractAudio } from "@/components/tools/ExtractAudio";
+import { getTool } from "@/lib/tools";
+import { ToolIcon } from "@/components/ToolIcon";
+
+function ToolBody({ slug }: { slug: string }) {
+  switch (slug) {
+    case "opus-to-mp3":
+      return <OpusToMp3 />;
+    case "coin-flip":
+      return <CoinFlip />;
+    case "page-screenshot":
+      return <PageScreenshot />;
+    case "video-cutter":
+      return <VideoCutter />;
+    case "qr-code":
+      return <QrCodeGenerator />;
+    case "background-remover":
+      return <BackgroundRemover />;
+    case "extract-audio":
+      return <ExtractAudio />;
+    default:
+      return null;
+  }
+}
+
+function ToolClientInner({ slug }: { slug: string }) {
+  const tool = getTool(slug);
+  const searchParams = useSearchParams();
+  const embed = searchParams.get("embed") === "1";
+  useTrackToolVisit(slug);
+
+  useEffect(() => {
+    document.documentElement.dataset.embed = embed ? "1" : "0";
+    return () => {
+      delete document.documentElement.dataset.embed;
+    };
+  }, [embed]);
+
+  if (!tool) return null;
+
+  return (
+    <div className={embed ? "mx-auto max-w-2xl p-3 sm:p-4" : "mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-10"}>
+      {!embed && (
+        <a
+          href="/#tools"
+          className="inline-flex min-h-10 items-center gap-1 text-sm font-medium text-primary hover:underline"
+        >
+          ← Tools
+        </a>
+      )}
+
+      <article className={`soft-card ${embed ? "border-0 shadow-none" : "mt-4"} p-5 sm:p-7`}>
+        <div className="mb-3 flex items-center gap-3">
+          <span
+            className="flex h-10 w-10 items-center justify-center rounded-full"
+            style={{
+              backgroundColor: `color-mix(in srgb, ${tool.accent} 16%, transparent)`,
+              color: tool.accent,
+            }}
+          >
+            <ToolIcon name={tool.icon} size={20} />
+          </span>
+          <span className="text-xs capitalize text-text-muted">
+            {tool.category}
+          </span>
+        </div>
+
+        <h1 className="text-2xl font-medium tracking-tight text-text sm:text-3xl">
+          {tool.name}
+        </h1>
+        <p className="mt-2 text-[15px] leading-relaxed text-text-muted">
+          {tool.description}
+        </p>
+
+        {!embed && <div className="mt-4"><ToolChrome tool={tool} /></div>}
+
+        <div className="mt-6 border-t border-border pt-6">
+          <ToolBody slug={tool.slug} />
+        </div>
+      </article>
+    </div>
+  );
+}
+
+export function ToolClient({ slug }: { slug: string }) {
+  return (
+    <Suspense fallback={<div className="p-8 text-sm text-text-muted">Loading tool…</div>}>
+      <ToolClientInner slug={slug} />
+    </Suspense>
+  );
+}

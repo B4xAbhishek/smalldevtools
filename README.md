@@ -1,18 +1,29 @@
-# SmallDevTools
+# SmallTools
 
-Minimal free online toolbox — convert audio, cut video, capture pages, flip a coin.
+Free browser toolbox — convert, cut, capture, create. No signup.
 
-## Stack
+## Tools
 
-- Next.js + Tailwind
-- Remotion Player (coin flip + card reveal)
-- Jotai atoms (theme, filters, coin history — Recoil isn’t React 19–compatible)
+Background remover · QR generator · Extract audio · Opus→MP3 · Video cutter · Page screenshot · Coin flip
+
+## Features
+
+- Favorites & recently used
+- Shareable URLs with prefilled options (`?text=`, `?url=`, `?start=&end=`)
+- Batch mode on supported tools
+- Embed: `/tools/qr-code?embed=1&text=hello`
+- PWA + offline shell
+- SEO sitemap + per-tool metadata
+- PostHog (set `NEXT_PUBLIC_POSTHOG_KEY`)
 
 ## Run
 
 ```bash
 npm install
+cp .env.example .env.local   # optional PostHog
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+## Deploy
+
+https://smalldevtools.vercel.app
