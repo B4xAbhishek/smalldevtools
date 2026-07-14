@@ -30,8 +30,8 @@ export default function SuggestPage() {
   };
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-10 sm:px-6">
-      <h1 className="text-2xl font-medium tracking-tight text-text sm:text-3xl">
+    <div className="mx-auto max-w-lg px-3 py-6 sm:px-6 sm:py-10">
+      <h1 className="text-xl font-medium tracking-tight text-text sm:text-3xl">
         Suggest a tool
       </h1>
       <p className="mt-2 text-text-muted">

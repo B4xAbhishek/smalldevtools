@@ -158,6 +158,12 @@ body {
   box-shadow: var(--shadow-soft);
 }
 
+@media (max-width: 399px) {
+  .soft-card {
+    border-radius: 14px;
+  }
+}
+
 .btn {
   display: inline-flex;
   align-items: center;

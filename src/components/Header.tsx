@@ -13,16 +13,16 @@ function HeaderInner() {
   if (embed) return null;
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-bg/80 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <header className="sticky top-0 z-40 border-b border-border bg-bg/80 pt-[env(safe-area-inset-top)] backdrop-blur-xl">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-3 py-2.5 sm:gap-4 sm:px-6 sm:py-3">
         <Link
           href="/"
-          className="inline-flex items-center gap-2.5 rounded-md text-[17px] font-medium tracking-tight text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="inline-flex min-w-0 items-center gap-2 rounded-md text-base font-medium tracking-tight text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:gap-2.5 sm:text-[17px]"
         >
-          <TinyKitLogo size={28} />
-          <span>{SITE_NAME}</span>
+          <TinyKitLogo size={28} className="h-6 w-6 shrink-0 sm:h-7 sm:w-7" />
+          <span className="truncate">{SITE_NAME}</span>
         </Link>
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
           <Link
             href="/suggest"
             className="hidden text-sm text-text-muted hover:text-text sm:inline"

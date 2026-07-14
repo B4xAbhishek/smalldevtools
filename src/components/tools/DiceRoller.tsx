@@ -59,12 +59,15 @@ export function DiceRoller() {
         </div>
       </div>
 
-      <div className="flex flex-wrap items-center justify-center gap-3 py-4" aria-live="polite">
+      <div
+        className="flex flex-wrap items-center justify-center gap-2 py-3 sm:gap-3 sm:py-4"
+        aria-live="polite"
+      >
         {values.map((v, i) => (
           <span
             key={`${i}-${v}-${rolling}`}
-            className={`flex h-20 w-20 items-center justify-center rounded-2xl border border-border bg-surface text-5xl shadow-sm transition ${
-              rolling ? "animate-pulse scale-105" : ""
+            className={`flex h-14 w-14 items-center justify-center rounded-xl border border-border bg-surface text-4xl shadow-sm transition sm:h-20 sm:w-20 sm:rounded-2xl sm:text-5xl ${
+              rolling ? "scale-105 animate-pulse" : ""
             }`}
             style={{ fontFamily: "serif" }}
           >
@@ -75,7 +78,9 @@ export function DiceRoller() {
 
       <div className="text-center">
         <p className="text-sm text-text-muted">Total</p>
-        <p className="text-4xl font-medium tabular-nums text-text">{total}</p>
+        <p className="text-3xl font-medium tabular-nums text-text sm:text-4xl">
+          {total}
+        </p>
       </div>
 
       <button

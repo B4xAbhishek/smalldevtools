@@ -13,9 +13,9 @@ function ThemeBootstrap({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useAtom(themeModeAtom);
 
   useEffect(() => {
-    const stored = localStorage.getItem("sdt-theme") as ThemeMode | null;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    const next = stored ?? (prefersDark ? "dark" : "light");
+    const stored = localStorage.getItem("sdt-theme");
+    const next: ThemeMode =
+      stored === "light" || stored === "dark" ? stored : "dark";
     setTheme(next);
     applyTheme(next);
   }, [setTheme]);

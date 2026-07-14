@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: SITE_NAME,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
   },
   openGraph: {
     type: "website",
@@ -46,19 +46,19 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f5f5f7" },
     { media: "(prefers-color-scheme: dark)", color: "#000000" },
+    { media: "(prefers-color-scheme: light)", color: "#f5f5f7" },
   ],
   width: "device-width",
   initialScale: 1,
+  viewportFit: "cover",
 };
 
 const themeInitScript = `
 (function(){
   try {
     var s = localStorage.getItem('sdt-theme');
-    var d = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var t = s || (d ? 'dark' : 'light');
+    var t = (s === 'light' || s === 'dark') ? s : 'dark';
     if (t === 'dark') document.documentElement.classList.add('dark');
     document.documentElement.style.colorScheme = t;
   } catch (e) {}
@@ -89,12 +89,12 @@ export default function RootLayout({
           <main id="main" className="flex-1">
             {children}
           </main>
-          <footer className="border-t border-border">
-            <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-5 text-sm text-text-muted sm:px-6">
+          <footer className="border-t border-border pb-[env(safe-area-inset-bottom)]">
+            <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 text-sm text-text-muted sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-3 sm:px-6">
               <p>
                 <span className="text-text">{SITE_NAME}</span>
               </p>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
                 <a href="/suggest" className="hover:text-text">
                   Suggest a tool
                 </a>

@@ -54,10 +54,10 @@ export function ToolGrid() {
     .slice(0, 4) as typeof tools;
 
   return (
-    <section id="tools" className="mx-auto max-w-6xl px-4 py-8 sm:px-6 sm:py-10">
-      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <section id="tools" className="mx-auto max-w-6xl px-3 py-6 sm:px-6 sm:py-10">
+      <div className="mb-5 flex flex-col gap-3 sm:mb-6 sm:flex-row sm:items-end sm:justify-between sm:gap-4">
         <div>
-          <h1 className="text-2xl font-medium tracking-tight text-text sm:text-3xl">
+          <h1 className="text-xl font-medium tracking-tight text-text sm:text-3xl">
             Tools
           </h1>
           <p className="mt-1 text-sm text-text-muted sm:text-base">
@@ -76,10 +76,11 @@ export function ToolGrid() {
           <input
             id="tool-search"
             className="field pl-9"
-            placeholder="Search"
+            placeholder="Search tools"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             autoComplete="off"
+            enterKeyHint="search"
           />
         </div>
       </div>
@@ -92,7 +93,7 @@ export function ToolGrid() {
                 <Star size={12} className="fill-cta text-cta" aria-hidden />
                 Favorites
               </p>
-              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
+              <div className="grid grid-cols-1 gap-2.5 min-[400px]:grid-cols-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {favoriteTools.map((tool, i) => (
                   <ToolCard key={`fav-${tool.slug}`} tool={tool} index={i} />
                 ))}
@@ -104,7 +105,7 @@ export function ToolGrid() {
               <p className="mb-2 text-xs font-medium uppercase tracking-wide text-text-muted">
                 Recently used
               </p>
-              <div className="grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
+              <div className="grid grid-cols-1 gap-2.5 min-[400px]:grid-cols-2 sm:gap-3 md:grid-cols-3 lg:grid-cols-4">
                 {recentTools.map((tool, i) => (
                   <ToolCard key={`recent-${tool.slug}`} tool={tool} index={i} />
                 ))}
@@ -116,7 +117,7 @@ export function ToolGrid() {
 
       <CategoryTabs active={category} onChange={setCategory} counts={counts} />
 
-      <div className="mt-5 grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
+      <div className="mt-4 grid grid-cols-1 gap-2.5 min-[400px]:grid-cols-2 sm:mt-5 sm:gap-3 md:grid-cols-3 lg:grid-cols-4">
         {visible.map((tool, i) => (
           <ToolCard key={tool.slug} tool={tool} index={i} />
         ))}

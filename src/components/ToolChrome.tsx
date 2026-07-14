@@ -42,7 +42,7 @@ export function ToolChrome({ tool }: { tool: ToolMeta }) {
     <div className="mb-4 flex flex-wrap items-center gap-2">
       <button
         type="button"
-        className="btn btn-secondary min-h-10 px-3 text-sm"
+        className="btn btn-secondary min-h-10 flex-1 px-3 text-sm sm:flex-none"
         onClick={toggleFav}
         aria-pressed={isFav}
       >
@@ -51,12 +51,13 @@ export function ToolChrome({ tool }: { tool: ToolMeta }) {
           aria-hidden
           className={isFav ? "fill-cta text-cta" : ""}
         />
-        {isFav ? "Favorited" : "Favorite"}
+        <span className="sm:hidden">{isFav ? "Saved" : "Save"}</span>
+        <span className="hidden sm:inline">{isFav ? "Favorited" : "Favorite"}</span>
       </button>
 
       <button
         type="button"
-        className="btn btn-secondary min-h-10 px-3 text-sm"
+        className="btn btn-secondary min-h-10 flex-1 px-3 text-sm sm:flex-none"
         onClick={copyLink}
       >
         {copied ? <Check size={16} aria-hidden /> : <Copy size={16} aria-hidden />}
@@ -66,7 +67,7 @@ export function ToolChrome({ tool }: { tool: ToolMeta }) {
       {tool.batch && (
         <button
           type="button"
-          className={`btn min-h-10 px-3 text-sm ${batch ? "btn-primary" : "btn-secondary"}`}
+          className={`btn min-h-10 w-full px-3 text-sm sm:w-auto ${batch ? "btn-primary" : "btn-secondary"}`}
           onClick={() => setBatch((v) => !v)}
           aria-pressed={batch}
         >

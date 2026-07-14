@@ -36,8 +36,8 @@ export function CoinFlip() {
   }, [spinning, setHistory]);
 
   return (
-    <div className="flex flex-col items-center gap-7 py-2">
-      <div className="h-44 w-44 overflow-hidden rounded-full">
+    <div className="flex flex-col items-center gap-5 py-2 sm:gap-7">
+      <div className="h-36 w-36 overflow-hidden rounded-full sm:h-44 sm:w-44">
         <Player
           key={playKey}
           component={CoinFlipComposition}
@@ -58,7 +58,7 @@ export function CoinFlip() {
         <p className="text-sm font-medium uppercase tracking-wide text-text-muted">
           Result
         </p>
-        <p className="mt-1 text-4xl font-medium text-text">
+        <p className="mt-1 text-3xl font-medium text-text sm:text-4xl">
           {spinning
             ? "Flipping…"
             : face
@@ -69,7 +69,7 @@ export function CoinFlip() {
 
       <button
         type="button"
-        className="btn btn-primary min-w-[200px] text-lg"
+        className="btn btn-primary w-full min-w-0 text-base sm:w-auto sm:min-w-[200px] sm:text-lg"
         onClick={flip}
         disabled={spinning}
       >

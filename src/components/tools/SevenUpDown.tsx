@@ -63,12 +63,12 @@ export function SevenUpDown() {
     <div className="space-y-6">
       <div>
         <p className="mb-2 text-sm font-medium text-text">1. Predict the total</p>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
           {(
             [
-              { id: "down" as const, hint: "Total under 7" },
-              { id: "seven" as const, hint: "Exactly 7" },
-              { id: "up" as const, hint: "Total over 7" },
+              { id: "down" as const, hint: "Under 7", hintSm: "Total under 7" },
+              { id: "seven" as const, hint: "Exactly 7", hintSm: "Exactly 7" },
+              { id: "up" as const, hint: "Over 7", hintSm: "Total over 7" },
             ] as const
           ).map((opt) => (
             <button
@@ -79,19 +79,22 @@ export function SevenUpDown() {
                 setBet(opt.id);
                 setResult(null);
               }}
-              className={`rounded-xl border px-2 py-3 text-center transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${
+              className={`min-h-[4.25rem] rounded-xl border px-1.5 py-2.5 text-center transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring sm:min-h-0 sm:px-2 sm:py-3 ${
                 bet === opt.id
                   ? "border-primary bg-primary text-white"
                   : "border-border bg-muted text-text hover:border-border-strong"
               }`}
             >
-              <span className="block text-sm font-medium">{BET_LABEL[opt.id]}</span>
+              <span className="block text-xs font-medium sm:text-sm">
+                {BET_LABEL[opt.id]}
+              </span>
               <span
-                className={`mt-0.5 block text-[11px] ${
+                className={`mt-0.5 block text-[10px] leading-tight sm:text-[11px] ${
                   bet === opt.id ? "text-white/80" : "text-text-muted"
                 }`}
               >
-                {opt.hint}
+                <span className="sm:hidden">{opt.hint}</span>
+                <span className="hidden sm:inline">{opt.hintSm}</span>
               </span>
             </button>
           ))}
@@ -100,11 +103,14 @@ export function SevenUpDown() {
 
       <div>
         <p className="mb-3 text-sm font-medium text-text">2. Roll two dice</p>
-        <div className="flex items-center justify-center gap-4 py-2" aria-live="polite">
+        <div
+          className="flex items-center justify-center gap-3 py-2 sm:gap-4"
+          aria-live="polite"
+        >
           {dice.map((v, i) => (
             <span
               key={`${i}-${v}-${rolling}`}
-              className={`flex h-24 w-24 items-center justify-center rounded-2xl border border-border bg-surface text-6xl shadow-sm ${
+              className={`flex h-16 w-16 items-center justify-center rounded-xl border border-border bg-surface text-5xl shadow-sm sm:h-24 sm:w-24 sm:rounded-2xl sm:text-6xl ${
                 rolling ? "animate-pulse" : ""
               }`}
               style={{ fontFamily: "serif" }}
@@ -130,7 +136,7 @@ export function SevenUpDown() {
 
       {result && !rolling && (
         <div
-          className={`rounded-xl border px-4 py-3 text-center text-lg font-medium ${
+          className={`rounded-xl border px-3 py-3 text-center text-base font-medium sm:px-4 sm:text-lg ${
             result === "win"
               ? "border-success/40 bg-success/10 text-success"
               : "border-danger/40 bg-danger/10 text-danger"

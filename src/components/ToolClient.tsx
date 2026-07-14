@@ -57,7 +57,13 @@ function ToolClientInner({ slug }: { slug: string }) {
   if (!tool) return null;
 
   return (
-    <div className={embed ? "mx-auto max-w-2xl p-3 sm:p-4" : "mx-auto max-w-2xl px-4 py-8 sm:px-6 sm:py-10"}>
+    <div
+      className={
+        embed
+          ? "mx-auto max-w-2xl p-3 sm:p-4"
+          : "mx-auto max-w-2xl px-3 py-5 sm:px-6 sm:py-10"
+      }
+    >
       {!embed && (
         <a
           href="/#tools"
@@ -67,10 +73,12 @@ function ToolClientInner({ slug }: { slug: string }) {
         </a>
       )}
 
-      <article className={`soft-card ${embed ? "border-0 shadow-none" : "mt-4"} p-5 sm:p-7`}>
+      <article
+        className={`soft-card ${embed ? "border-0 shadow-none" : "mt-3 sm:mt-4"} p-4 sm:p-7`}
+      >
         <div className="mb-3 flex items-center gap-3">
           <span
-            className="flex h-10 w-10 items-center justify-center rounded-full"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
             style={{
               backgroundColor: `color-mix(in srgb, ${tool.accent} 16%, transparent)`,
               color: tool.accent,
@@ -83,16 +91,20 @@ function ToolClientInner({ slug }: { slug: string }) {
           </span>
         </div>
 
-        <h1 className="text-2xl font-medium tracking-tight text-text sm:text-3xl">
+        <h1 className="text-xl font-medium tracking-tight text-text sm:text-3xl">
           {tool.name}
         </h1>
-        <p className="mt-2 text-[15px] leading-relaxed text-text-muted">
+        <p className="mt-2 text-sm leading-relaxed text-text-muted sm:text-[15px]">
           {tool.description}
         </p>
 
-        {!embed && <div className="mt-4"><ToolChrome tool={tool} /></div>}
+        {!embed && (
+          <div className="mt-4">
+            <ToolChrome tool={tool} />
+          </div>
+        )}
 
-        <div className="mt-6 border-t border-border pt-6">
+        <div className="mt-5 border-t border-border pt-5 sm:mt-6 sm:pt-6">
           <ToolBody slug={tool.slug} />
         </div>
       </article>
