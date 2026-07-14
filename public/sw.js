@@ -1,5 +1,5 @@
-/* SmallTools offline shell — caches app shell for client-side tools */
-const CACHE = "smalltools-v1";
+/* TinyKit offline shell — caches app shell for client-side tools */
+const CACHE = "tinykit-v1";
 const PRECACHE = ["/", "/manifest.webmanifest"];
 
 self.addEventListener("install", (event) => {

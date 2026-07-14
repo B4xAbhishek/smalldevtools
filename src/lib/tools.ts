@@ -157,6 +157,6 @@ export function filterTools(category: "all" | ToolCategory) {
   return tools.filter((t) => t.category === category);
 }
 
-export const SITE_NAME = "SmallTools";
+export const SITE_NAME = "TinyKit";
 export const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL ?? "https://smalldevtools.vercel.app";

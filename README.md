@@ -1,10 +1,10 @@
-# SmallTools
+# TinyKit
 
 Free browser toolbox — convert, cut, capture, create. No signup.
 
 ## Tools
 
-Background remover · QR generator · Extract audio · Opus→MP3 · Video cutter · Page screenshot · Coin flip
+Background remover · QR generator · Extract audio · Opus→MP3 · Video cutter · Page screenshot · Coin flip · Dice roller · 7 Up 7 Down
 
 ## Features
 

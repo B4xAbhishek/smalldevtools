@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "SmallTools",
-    short_name: "SmallTools",
+    name: "TinyKit",
+    short_name: "TinyKit",
     description: "Free online mini tools — convert, cut, capture, create.",
     start_url: "/",
     display: "standalone",
