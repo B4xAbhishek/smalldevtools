@@ -17,7 +17,8 @@ export type ToolIconName =
   | "seven"
   | "rps"
   | "guess"
-  | "tictactoe";
+  | "tictactoe"
+  | "ip";
 
 export type ToolMeta = {
   slug: string;
@@ -115,6 +116,17 @@ export const tools: ToolMeta[] = [
     accent: "#0A84FF",
     shareParams: ["text"],
     keywords: ["qr code", "generator", "barcode"],
+  },
+  {
+    slug: "whats-my-ip",
+    name: "What's my IP",
+    tagline: "Public IP address",
+    description:
+      "See your public IP address as the site sees it. Copy it in one tap — useful for networking and debugging.",
+    category: "utility",
+    icon: "ip",
+    accent: "#5AC8FA",
+    keywords: ["ip address", "whats my ip", "public ip", "network"],
   },
   {
     slug: "coin-flip",

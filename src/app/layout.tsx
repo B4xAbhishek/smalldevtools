@@ -120,9 +120,10 @@ export default function RootLayout({
               </p>
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
                 <a href="/feedback" className="hover:text-text">
-                  Feedback
+                  Request an app
                 </a>
                 <span>Files stay on your device</span>
+                <span>Developed by Abhishek Verma</span>
               </div>
             </div>
           </footer>

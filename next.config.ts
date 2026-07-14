@@ -7,10 +7,6 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "**.microlink.io",
       },
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-      },
     ],
   },
   serverExternalPackages: ["@imgly/background-removal", "onnxruntime-web"],

@@ -146,6 +146,21 @@ body {
   animation: rise-in 0.35s ease-out both;
 }
 
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-pop {
+  animation: pop-in 0.2s ease-out both;
+}
+
 .coin-spin {
   animation: spin-coin 1.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   transform-style: preserve-3d;
@@ -282,41 +297,53 @@ html[data-embed="1"] footer {
   display: none !important;
 }
 
-/* HD dice — premium 3D face + roll motion (respects reduced-motion above) */
+/* Claymorphism dice — soft toy-like d6 (SVG face + CSS depth) */
+.hd-dice-stage {
+  background:
+    radial-gradient(ellipse 75% 65% at 50% 42%, color-mix(in srgb, var(--primary) 10%, transparent), transparent 72%),
+    linear-gradient(180deg, color-mix(in srgb, var(--muted) 92%, #8a9a7a) 0%, var(--muted) 100%);
+}
+
 .hd-die {
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.12),
-    0 8px 20px rgba(0, 0, 0, 0.18),
-    0 0 0 1px rgba(0, 0, 0, 0.06);
+  border-radius: 22%;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.12)) drop-shadow(0 10px 18px rgba(0, 0, 0, 0.16));
   transform: translateZ(0);
   isolation: isolate;
 }
 
 .dark .hd-die {
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.5),
-    0 10px 28px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.08);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45)) drop-shadow(0 12px 24px rgba(0, 0, 0, 0.5));
+}
+
+.hd-die-svg {
+  display: block;
+  overflow: visible;
 }
 
 @keyframes hd-die-roll {
   0% {
-    transform: rotate(-8deg) scale(1.02);
+    transform: rotate(-12deg) translateY(-2px) scale(1.04);
   }
   25% {
-    transform: rotate(10deg) scale(1.06);
+    transform: rotate(14deg) translateY(-4px) scale(1.07);
   }
   50% {
-    transform: rotate(-6deg) scale(1.03);
+    transform: rotate(-10deg) translateY(-1px) scale(1.04);
   }
   75% {
-    transform: rotate(8deg) scale(1.05);
+    transform: rotate(11deg) translateY(-3px) scale(1.06);
   }
   100% {
-    transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) translateY(0) scale(1);
   }
 }
 
 .hd-die--rolling {
-  animation: hd-die-roll 0.28s ease-out infinite;
+  animation: hd-die-roll 0.24s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hd-die--rolling {
+    animation: none;
+  }
 }

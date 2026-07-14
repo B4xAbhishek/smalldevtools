@@ -28,7 +28,7 @@ function HeaderInner() {
             href="/feedback"
             className="hidden text-sm text-text-muted hover:text-text sm:inline"
           >
-            Feedback
+            Request an app
           </Link>
           <InstallAppButton />
           <ThemeToggle />

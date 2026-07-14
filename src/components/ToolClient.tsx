@@ -16,6 +16,7 @@ import { SevenUpDown } from "@/components/tools/SevenUpDown";
 import { RockPaperScissors } from "@/components/tools/RockPaperScissors";
 import { NumberGuess } from "@/components/tools/NumberGuess";
 import { TicTacToe } from "@/components/tools/TicTacToe";
+import { WhatsMyIp } from "@/components/tools/WhatsMyIp";
 import { getTool } from "@/lib/tools";
 import { ToolIcon } from "@/components/ToolIcon";
 
@@ -31,6 +32,8 @@ function ToolBody({ slug }: { slug: string }) {
       return <VideoCutter />;
     case "qr-code":
       return <QrCodeGenerator />;
+    case "whats-my-ip":
+      return <WhatsMyIp />;
     case "background-remover":
       return <BackgroundRemover />;
     case "extract-audio":
@@ -85,33 +88,36 @@ function ToolClientInner({ slug }: { slug: string }) {
       <article
         className={`soft-card ${embed ? "border-0 shadow-none" : "mt-3 sm:mt-4"} p-4 sm:p-7`}
       >
-        <div className="mb-3 flex items-center gap-3">
-          <span
-            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
-            style={{
-              backgroundColor: `color-mix(in srgb, ${tool.accent} 16%, transparent)`,
-              color: tool.accent,
-            }}
-          >
-            <ToolIcon name={tool.icon} size={20} />
-          </span>
-          <span className="text-xs capitalize text-text-muted">
+        <div className="mb-1 flex items-center gap-2">
+          <span className="text-xs font-medium capitalize tracking-wide text-text-muted">
             {tool.category}
           </span>
         </div>
 
-        <h1 className="text-xl font-medium tracking-tight text-text sm:text-3xl">
-          {tool.name}
-        </h1>
+        <div className="flex items-center gap-3">
+          <div className="flex min-w-0 flex-1 items-center gap-2.5 sm:gap-3">
+            <span
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:h-11 sm:w-11"
+              style={{
+                backgroundColor: `color-mix(in srgb, ${tool.accent} 16%, transparent)`,
+                color: tool.accent,
+              }}
+              aria-hidden
+            >
+              <ToolIcon name={tool.icon} size={20} />
+            </span>
+            <h1 className="min-w-0 text-xl font-medium tracking-tight text-text sm:text-3xl">
+              {tool.name}
+            </h1>
+          </div>
+          {!embed && <ToolChrome tool={tool} />}
+        </div>
+
         <p className="mt-2 text-sm leading-relaxed text-text-muted sm:text-[15px]">
           {tool.description}
         </p>
 
-        {!embed && (
-          <div className="mt-4">
-            <ToolChrome tool={tool} />
-          </div>
-        )}
+        {!embed && <ToolChrome tool={tool} batchOnly />}
 
         <div className="mt-5 border-t border-border pt-5 sm:mt-6 sm:pt-6">
           <ToolBody slug={tool.slug} />

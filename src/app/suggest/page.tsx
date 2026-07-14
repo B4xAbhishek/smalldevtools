@@ -50,16 +50,16 @@ export default function SuggestPage() {
   return (
     <div className="mx-auto max-w-lg px-3 py-8 sm:px-6 sm:py-10">
       <h1 className="text-xl font-medium tracking-tight text-text sm:text-3xl">
-        Feedback
+        Request an app
       </h1>
       <p className="mt-2 text-sm text-text-muted sm:text-base">
-        Suggest a tool, report a bug, or tell us what to improve. We read every
-        message.
+        Tell us which tool or app you want next. Ideas, features, and bug notes
+        are welcome — we read every message.
       </p>
 
       {sent ? (
         <div className="soft-card mt-6 p-5">
-          <p className="font-medium text-text">Thanks — feedback saved.</p>
+          <p className="font-medium text-text">Thanks — request saved.</p>
           <p className="mt-1 text-sm text-text-muted">
             Your note was stored so we can follow up.
           </p>
@@ -68,14 +68,14 @@ export default function SuggestPage() {
             className="btn btn-secondary mt-4"
             onClick={() => setSent(false)}
           >
-            Send more feedback
+            Request another app
           </button>
         </div>
       ) : (
         <form onSubmit={onSubmit} className="soft-card mt-6 space-y-4 p-4 sm:p-5">
           <div>
             <label htmlFor="message" className="mb-2 block text-sm font-medium">
-              Your message
+              What should we build?
             </label>
             <textarea
               id="message"
@@ -85,7 +85,7 @@ export default function SuggestPage() {
               maxLength={4000}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              placeholder="e.g. PDF to Word, image compressor, or a bug you hit…"
+              placeholder="e.g. PDF to Word, image compressor, or a feature you need…"
             />
           </div>
 
@@ -135,7 +135,7 @@ export default function SuggestPage() {
             className="btn btn-primary w-full"
             disabled={submitting}
           >
-            {submitting ? "Sending…" : "Send feedback"}
+            {submitting ? "Sending…" : "Send request"}
           </button>
         </form>
       )}

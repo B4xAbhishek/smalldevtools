@@ -8,16 +8,40 @@ type VisitorStat = { _id: string; count: number };
 
 export const dynamic = "force-dynamic";
 
+function isLocalHost(host: string): boolean {
+  const hostname = host.split(":")[0]?.toLowerCase() ?? "";
+  return (
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "[::1]" ||
+    hostname === "::1"
+  );
+}
+
+/** Only persist visits in true production — skip localhost, dev, and Vercel preview. */
+function shouldPersistVisits(request: NextRequest): boolean {
+  const host = request.headers.get("host") ?? "";
+  if (isLocalHost(host)) return false;
+
+  // On Vercel, only count the production deployment (not preview/dev).
+  if (process.env.VERCEL_ENV) {
+    return process.env.VERCEL_ENV === "production";
+  }
+
+  return process.env.NODE_ENV === "production";
+}
+
 export async function GET(request: NextRequest) {
   try {
     const db = await getDb();
     const stats = db.collection<VisitorStat>("stats");
+    const persist = shouldPersistVisits(request);
     const already = Boolean(request.cookies.get(COOKIE)?.value);
 
     let count: number;
     let incremented = false;
 
-    if (already) {
+    if (!persist || already) {
       const doc = await stats.findOne({ _id: STATS_ID });
       count = doc?.count ?? 0;
     } else {
@@ -31,7 +55,7 @@ export async function GET(request: NextRequest) {
     }
 
     const res = NextResponse.json({ count, incremented });
-    if (!already) {
+    if (persist && !already) {
       res.cookies.set(COOKIE, "1", {
         httpOnly: true,
         sameSite: "lax",

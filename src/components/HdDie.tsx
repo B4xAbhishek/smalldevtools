@@ -1,15 +1,6 @@
 "use client";
 
 import type { ReactNode } from "react";
-import Image from "next/image";
-
-/** Ivory die surface texture — close-up white die (Unsplash). */
-export const DIE_TEXTURE_URL =
-  "https://images.unsplash.com/photo-1666870747605-cca30ed154c5?w=800&q=80&auto=format&fit=crop";
-
-/** Ambient casino dice on dark — stage atmosphere (Unsplash). */
-export const DIE_STAGE_URL =
-  "https://images.unsplash.com/photo-1608231883522-2efb1897a608?w=800&q=80&auto=format&fit=crop";
 
 type Face = 1 | 2 | 3 | 4 | 5 | 6;
 
@@ -23,9 +14,22 @@ const PIP_MAP: Record<Face, number[]> = {
   6: [1, 3, 4, 6, 7, 9],
 };
 
+/** Pip centers in a 100×100 viewBox (inset face). */
+const PIP_XY: Record<number, [number, number]> = {
+  1: [28, 28],
+  2: [50, 28],
+  3: [72, 28],
+  4: [28, 50],
+  5: [50, 50],
+  6: [72, 50],
+  7: [28, 72],
+  8: [50, 72],
+  9: [72, 72],
+};
+
 const SIZE = {
-  sm: "h-16 w-16 sm:h-20 sm:w-20",
-  md: "h-20 w-20 sm:h-24 sm:w-24",
+  sm: "h-16 w-16 sm:h-[4.5rem] sm:w-[4.5rem]",
+  md: "h-[4.75rem] w-[4.75rem] sm:h-24 sm:w-24",
   lg: "h-24 w-24 sm:h-28 sm:w-28",
 } as const;
 
@@ -43,6 +47,7 @@ function clampFace(n: number): Face {
   return v as Face;
 }
 
+/** Claymorphism d6 — soft 3D face + clear SVG pips (no photos / emoji). */
 export function HdDie({
   value,
   rolling = false,
@@ -51,52 +56,95 @@ export function HdDie({
 }: HdDieProps) {
   const face = clampFace(value);
   const pips = PIP_MAP[face];
+  const uid = `hd-die-${face}-${size}`;
 
   return (
     <span
       role="img"
       aria-label={`Die showing ${face}`}
-      className={`hd-die relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-[18%] ${SIZE[size]} ${
+      className={`hd-die relative inline-flex shrink-0 items-center justify-center ${SIZE[size]} ${
         rolling ? "hd-die--rolling" : ""
       } ${className}`}
     >
-      <Image
-        src={DIE_TEXTURE_URL}
-        alt=""
-        fill
-        sizes="112px"
-        className="object-cover scale-110 opacity-95"
-        priority={false}
-        aria-hidden
-      />
-      {/* Soft ivory wash so pips stay high-contrast on any crop */}
-      <span
-        className="pointer-events-none absolute inset-0 bg-gradient-to-br from-white/55 via-white/35 to-stone-300/40 mix-blend-soft-light dark:from-white/40 dark:via-white/25 dark:to-stone-400/30"
-        aria-hidden
-      />
-      <span
-        className="pointer-events-none absolute inset-0 rounded-[18%] shadow-[inset_0_1px_2px_rgba(255,255,255,0.7),inset_0_-2px_6px_rgba(0,0,0,0.18)]"
-        aria-hidden
-      />
-      <span
-        className="relative z-10 grid h-[72%] w-[72%] grid-cols-3 grid-rows-3 place-items-center gap-[6%]"
+      <svg
+        viewBox="0 0 100 100"
+        className="hd-die-svg h-full w-full"
         aria-hidden
       >
-        {Array.from({ length: 9 }, (_, i) => {
-          const cell = i + 1;
-          const on = pips.includes(cell);
+        <defs>
+          <linearGradient id={`${uid}-face`} x1="18%" y1="12%" x2="82%" y2="88%">
+            <stop offset="0%" stopColor="#fffdf8" />
+            <stop offset="45%" stopColor="#f4eee4" />
+            <stop offset="100%" stopColor="#e4d8c8" />
+          </linearGradient>
+          <radialGradient id={`${uid}-gloss`} cx="32%" cy="28%" r="55%">
+            <stop offset="0%" stopColor="#ffffff" stopOpacity="0.72" />
+            <stop offset="55%" stopColor="#ffffff" stopOpacity="0.12" />
+            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+          </radialGradient>
+          <radialGradient id={`${uid}-pip`} cx="35%" cy="30%" r="65%">
+            <stop offset="0%" stopColor="#4a4a50" />
+            <stop offset="70%" stopColor="#1c1c20" />
+            <stop offset="100%" stopColor="#0e0e10" />
+          </radialGradient>
+        </defs>
+
+        {/* Soft clay body */}
+        <rect
+          x="6"
+          y="6"
+          width="88"
+          height="88"
+          rx="22"
+          ry="22"
+          fill={`url(#${uid}-face)`}
+          stroke="#d2c6b6"
+          strokeWidth="3.5"
+        />
+        {/* Inner rim for toy depth */}
+        <rect
+          x="14"
+          y="14"
+          width="72"
+          height="72"
+          rx="16"
+          ry="16"
+          fill="none"
+          stroke="#c9bbaa"
+          strokeOpacity="0.45"
+          strokeWidth="1.5"
+        />
+        <rect
+          x="6"
+          y="6"
+          width="88"
+          height="88"
+          rx="22"
+          ry="22"
+          fill={`url(#${uid}-gloss)`}
+        />
+
+        {pips.map((cell) => {
+          const [cx, cy] = PIP_XY[cell];
           return (
-            <span
-              key={cell}
-              className={`block aspect-square w-[78%] max-w-3 rounded-full transition-opacity duration-150 ${
-                on
-                  ? "bg-[#1a1a1c] shadow-[0_1px_1px_rgba(255,255,255,0.35),inset_0_1px_2px_rgba(0,0,0,0.55)] opacity-100"
-                  : "opacity-0"
-              }`}
-            />
+            <g key={cell}>
+              <circle
+                cx={cx}
+                cy={cy}
+                r="7.2"
+                fill={`url(#${uid}-pip)`}
+              />
+              <circle
+                cx={cx - 1.6}
+                cy={cy - 1.8}
+                r="2.1"
+                fill="#ffffff"
+                fillOpacity="0.22"
+              />
+            </g>
           );
         })}
-      </span>
+      </svg>
     </span>
   );
 }
@@ -106,25 +154,13 @@ type DiceStageProps = {
   className?: string;
 };
 
-/** Atmospheric stage with subtle Unsplash dice photo behind interactive dice. */
+/** Soft felt stage for dice — no photo backdrop. */
 export function DiceStage({ children, className = "" }: DiceStageProps) {
   return (
     <div
-      className={`relative overflow-hidden rounded-2xl border border-border bg-muted/80 py-6 sm:py-8 ${className}`}
+      className={`hd-dice-stage relative overflow-hidden rounded-2xl border border-border py-8 sm:py-10 ${className}`}
     >
-      <Image
-        src={DIE_STAGE_URL}
-        alt=""
-        fill
-        sizes="(max-width: 640px) 100vw, 640px"
-        className="object-cover opacity-[0.22] dark:opacity-[0.28]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-bg/40 via-transparent to-bg/55 dark:from-bg/60 dark:to-bg/70"
-        aria-hidden
-      />
-      <div className="relative z-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+      <div className="relative z-10 flex flex-wrap items-center justify-center gap-4 sm:gap-6">
         {children}
       </div>
     </div>
