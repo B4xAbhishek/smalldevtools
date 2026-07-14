@@ -5,7 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import type { ToolMeta } from "@/lib/tools";
 import { ToolIcon } from "@/components/ToolIcon";
 
-export function ToolCard({ tool }: { tool: ToolMeta; index: number }) {
+export function ToolCard({ tool, index }: { tool: ToolMeta; index: number }) {
   return (
     <Link
       href={`/tools/${tool.slug}`}
