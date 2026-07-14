@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
+import { InstallAppButton } from "@/components/InstallApp";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { TinyKitLogo } from "@/components/TinyKitLogo";
 import { SITE_NAME } from "@/lib/tools";
@@ -29,6 +30,7 @@ function HeaderInner() {
           >
             Feedback
           </Link>
+          <InstallAppButton />
           <ThemeToggle />
         </div>
       </div>

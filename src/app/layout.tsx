@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Header } from "@/components/Header";
 import { AppProviders } from "@/components/AppProviders";
 import { Analytics } from "@/components/Analytics";
+import { InstallAppBanner } from "@/components/InstallApp";
 import { ServiceWorkerRegister } from "@/components/ServiceWorkerRegister";
 import { VisitorCounter } from "@/components/VisitorCounter";
 import { SITE_NAME, SITE_URL } from "@/lib/tools";
@@ -90,6 +91,7 @@ export default function RootLayout({
           <main id="main" className="flex-1">
             {children}
           </main>
+          <InstallAppBanner />
           <footer className="border-t border-border pb-[env(safe-area-inset-bottom)]">
             <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-5 text-sm text-text-muted sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-3 sm:px-6">
               <p className="flex flex-wrap items-center gap-x-3 gap-y-1">
