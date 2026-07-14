@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { TinyKitLogo } from "@/components/TinyKitLogo";
 import { SITE_NAME } from "@/lib/tools";
 
 function HeaderInner() {
@@ -16,9 +17,10 @@ function HeaderInner() {
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
         <Link
           href="/"
-          className="rounded-md text-[17px] font-medium tracking-tight text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+          className="inline-flex items-center gap-2.5 rounded-md text-[17px] font-medium tracking-tight text-text focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
         >
-          {SITE_NAME}
+          <TinyKitLogo size={28} />
+          <span>{SITE_NAME}</span>
         </Link>
         <div className="flex items-center gap-2">
           <Link

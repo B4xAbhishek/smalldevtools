@@ -15,6 +15,10 @@ export const metadata: Metadata = {
   description:
     "Free browser tools: remove backgrounds, generate QR codes, extract audio, convert Opus to MP3, cut video, and more. No signup.",
   applicationName: SITE_NAME,
+  icons: {
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: [{ url: "/logo.svg", type: "image/svg+xml" }],
+  },
   appleWebApp: {
     capable: true,
     title: SITE_NAME,
