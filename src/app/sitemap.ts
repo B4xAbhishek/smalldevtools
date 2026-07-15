@@ -26,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${SITE_URL}/tools/${t.slug}`,
       lastModified: now,
       changeFrequency: "weekly" as const,
-      priority: 0.8,
+      priority: t.seoPriority ?? 0.7,
     })),
   ];
 }

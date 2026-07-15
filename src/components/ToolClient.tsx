@@ -17,6 +17,8 @@ import { RockPaperScissors } from "@/components/tools/RockPaperScissors";
 import { NumberGuess } from "@/components/tools/NumberGuess";
 import { TicTacToe } from "@/components/tools/TicTacToe";
 import { WhatsMyIp } from "@/components/tools/WhatsMyIp";
+import { WhatsMyLocation } from "@/components/tools/WhatsMyLocation";
+import { AnonymousWall } from "@/components/tools/AnonymousWall";
 import { getTool } from "@/lib/tools";
 import { ToolIcon } from "@/components/ToolIcon";
 
@@ -34,6 +36,10 @@ function ToolBody({ slug }: { slug: string }) {
       return <QrCodeGenerator />;
     case "whats-my-ip":
       return <WhatsMyIp />;
+    case "whats-my-location":
+      return <WhatsMyLocation />;
+    case "anonymous-wall":
+      return <AnonymousWall />;
     case "background-remover":
       return <BackgroundRemover />;
     case "extract-audio":

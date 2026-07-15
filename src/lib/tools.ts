@@ -3,6 +3,7 @@ export type ToolCategory =
   | "audio"
   | "video"
   | "utility"
+  | "social"
   | "games";
 
 export type ToolIconName =
@@ -19,7 +20,8 @@ export type ToolIconName =
   | "guess"
   | "tictactoe"
   | "ip"
-  | "location";
+  | "location"
+  | "anon";
 
 export type ToolMeta = {
   slug: string;
@@ -34,6 +36,10 @@ export type ToolMeta = {
   /** Query keys that can be prefilled via URL (?key=) */
   shareParams?: string[];
   keywords?: string[];
+  /** Full document title override for SEO-focused tools */
+  seoTitle?: string;
+  /** Sitemap priority 0–1 (defaults to 0.7) */
+  seoPriority?: number;
 };
 
 export const CATEGORIES: { id: "all" | ToolCategory; label: string }[] = [
@@ -42,21 +48,94 @@ export const CATEGORIES: { id: "all" | ToolCategory; label: string }[] = [
   { id: "audio", label: "Audio" },
   { id: "video", label: "Video" },
   { id: "utility", label: "Utility" },
+  { id: "social", label: "Social" },
   { id: "games", label: "Games" },
 ];
 
 export const tools: ToolMeta[] = [
   {
-    slug: "opus-to-mp3",
-    name: "Opus to MP3",
-    tagline: "Convert audio",
+    slug: "coin-flip",
+    name: "Coin Flip",
+    tagline: "Coin toss online",
     description:
-      "Upload an Opus file and download an MP3. Everything runs in your browser — nothing is uploaded to a server.",
+      "Free online coin flip and coin toss — heads or tails in one tap. Fair random flips for decisions, games, or settling debates. No signup.",
+    category: "games",
+    icon: "coin",
+    accent: "#FF9F0A",
+    seoTitle: "Coin Flip Online — Free Coin Toss (Heads or Tails)",
+    seoPriority: 1,
+    keywords: [
+      "coin flip",
+      "coin toss",
+      "toss a coin",
+      "heads or tails",
+      "online coin flip",
+      "virtual coin flip",
+      "flip a coin",
+    ],
+  },
+  {
+    slug: "opus-to-mp3",
+    name: "WhatsApp Audio to MP3",
+    tagline: "Opus voice notes",
+    description:
+      "Convert WhatsApp audio and Opus voice notes to MP3 free in your browser. Upload .opus files, download MP3 — nothing uploaded to a server.",
     category: "audio",
     icon: "audio",
     accent: "#0071E3",
     batch: true,
-    keywords: ["opus", "mp3", "convert", "audio"],
+    seoTitle: "WhatsApp Audio to MP3 — Convert Opus Voice Notes Free",
+    seoPriority: 1,
+    keywords: [
+      "whatsapp audio to mp3",
+      "whatsapp voice to mp3",
+      "whatsapp opus to mp3",
+      "opus to mp3",
+      "convert opus to mp3",
+      "voice note to mp3",
+      "whatsapp audio converter",
+    ],
+  },
+  {
+    slug: "qr-code",
+    name: "QR Code Generator",
+    tagline: "Free QR codes",
+    description:
+      "Free QR code generator — create a QR from any URL or text and download a clean PNG instantly. No signup, works in your browser.",
+    category: "utility",
+    icon: "qr",
+    accent: "#0A84FF",
+    shareParams: ["text"],
+    seoTitle: "Free QR Code Generator — Create & Download PNG",
+    seoPriority: 1,
+    keywords: [
+      "qr code generator",
+      "free qr code",
+      "create qr code",
+      "qr code maker",
+      "generate qr code",
+      "download qr code png",
+    ],
+  },
+  {
+    slug: "seven-up-down",
+    name: "7 Up 7 Down",
+    tagline: "Online dice game",
+    description:
+      "Play 7 Up 7 Down online free — pick 7 Down, 7, or 7 Up, roll two dice, and see if you win. Fast classic dice prediction game in your browser.",
+    category: "games",
+    icon: "seven",
+    accent: "#BF5AF2",
+    seoTitle: "7 Up 7 Down Game Online — Free Dice Prediction",
+    seoPriority: 1,
+    keywords: [
+      "7 up 7 down",
+      "7up 7down",
+      "7 up 7 down game",
+      "seven up seven down",
+      "7 up 7 down online",
+      "dice prediction game",
+    ],
   },
   {
     slug: "extract-audio",
@@ -107,18 +186,6 @@ export const tools: ToolMeta[] = [
     keywords: ["screenshot", "webpage capture"],
   },
   {
-    slug: "qr-code",
-    name: "QR Code Generator",
-    tagline: "Link to QR",
-    description:
-      "Type a URL or message and download a clean QR code PNG. Prefill via ?text= in the link.",
-    category: "utility",
-    icon: "qr",
-    accent: "#0A84FF",
-    shareParams: ["text"],
-    keywords: ["qr code", "generator", "barcode"],
-  },
-  {
     slug: "whats-my-ip",
     name: "What's my IP",
     tagline: "Public IP address",
@@ -148,15 +215,22 @@ export const tools: ToolMeta[] = [
     ],
   },
   {
-    slug: "coin-flip",
-    name: "Coin Flip",
-    tagline: "Heads or tails",
+    slug: "anonymous-wall",
+    name: "Anonymous Wall",
+    tagline: "Post anything",
     description:
-      "Need a quick toss? Flip a fair coin for decisions, games, or settling a debate.",
-    category: "games",
-    icon: "coin",
+      "Drop a short anonymous note (max 50 characters). Posts show as Anonymous with a date and sequence number. Keep it civil.",
+    category: "social",
+    icon: "anon",
     accent: "#FF9F0A",
-    keywords: ["coin flip", "toss", "heads tails"],
+    keywords: [
+      "anonymous",
+      "anonymous wall",
+      "anon post",
+      "confession",
+      "public board",
+      "social",
+    ],
   },
   {
     slug: "dice-roller",
@@ -168,17 +242,6 @@ export const tools: ToolMeta[] = [
     icon: "dice",
     accent: "#FF375F",
     keywords: ["dice", "roller", "random", "d6"],
-  },
-  {
-    slug: "seven-up-down",
-    name: "7 Up 7 Down",
-    tagline: "Predict then roll",
-    description:
-      "Pick 7 Down (under 7), 7 (exact), or 7 Up (over 7), then roll two dice and see if you win.",
-    category: "games",
-    icon: "seven",
-    accent: "#BF5AF2",
-    keywords: ["7 up 7 down", "dice game", "predict"],
   },
   {
     slug: "rock-paper-scissors",

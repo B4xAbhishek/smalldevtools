@@ -245,6 +245,11 @@ body {
     box-shadow 0.15s ease;
 }
 
+/* Leading icon inside the field — padding must beat .field shorthand */
+.field.field-with-icon {
+  padding-left: 2.5rem;
+}
+
 .field::placeholder {
   color: var(--text-muted);
 }

@@ -1,14 +1,15 @@
 # TinyKit
 
-Free browser toolbox — convert, cut, capture, create. No signup.
+Free browser toolbox — coin flip / toss, WhatsApp audio to MP3, QR codes, 7 Up 7 Down, and more. No signup.
 
-## Tools
+## Tools (SEO focus)
 
-Background remover · QR generator · Extract audio · Opus→MP3 · Video cutter ·
+- **Coin Flip / Toss** — `/tools/coin-flip`
+- **WhatsApp Audio to MP3** (Opus) — `/tools/opus-to-mp3`
+- **QR Code Generator** — `/tools/qr-code`
+- **7 Up 7 Down** — `/tools/seven-up-down`
 
-Page screenshot · Coin flip · Dice roller · 7 Up 7 Down · Rock Paper Scissors ·
-
-Number Guessing · Tic Tac Toe
+Also: extract audio · video cutter · background remover · page screenshot · dice · RPS · number guess · tic-tac-toe · IP · location
 
 ## Features
 

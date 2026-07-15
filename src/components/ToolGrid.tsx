@@ -69,13 +69,13 @@ export function ToolGrid() {
             Search tools
           </label>
           <Search
-            className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-text-muted"
+            className="pointer-events-none absolute top-1/2 left-3.5 z-10 -translate-y-1/2 text-text-muted"
             size={16}
             aria-hidden
           />
           <input
             id="tool-search"
-            className="field pl-9"
+            className="field field-with-icon"
             placeholder="Search tools"
             value={query}
             onChange={(e) => setQuery(e.target.value)}

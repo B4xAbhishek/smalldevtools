@@ -16,7 +16,9 @@ export async function generateMetadata({
   const tool = getTool(slug);
   if (!tool) return { title: "Tool not found" };
 
-  const title = `${tool.name} — Free online ${tool.tagline.toLowerCase()} | ${SITE_NAME}`;
+  const title =
+    tool.seoTitle ??
+    `${tool.name} — Free online ${tool.tagline.toLowerCase()} | ${SITE_NAME}`;
   const url = `${SITE_URL}/tools/${tool.slug}`;
 
   return {
@@ -52,9 +54,13 @@ export default async function ToolPage({
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name: tool.name,
+    alternateName: tool.keywords?.slice(0, 4),
     description: tool.description,
     url: `${SITE_URL}/tools/${tool.slug}`,
-    applicationCategory: "UtilitiesApplication",
+    applicationCategory:
+      tool.category === "games" ? "GameApplication" : "UtilitiesApplication",
+    operatingSystem: "Any",
+    browserRequirements: "Requires JavaScript",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
   };
 

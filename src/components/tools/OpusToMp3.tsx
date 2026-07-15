@@ -114,10 +114,12 @@ export function OpusToMp3() {
       >
         <Upload className="mb-3 text-primary" size={32} aria-hidden />
         <p className="text-lg font-medium text-text">
-          {batch ? "Drop .opus files" : "Drop your .opus file here"}
+          {batch
+            ? "Drop WhatsApp .opus files"
+            : "Drop your WhatsApp .opus voice note"}
         </p>
         <p className="mt-2 text-base text-text-muted">
-          or tap to choose · conversion runs in your browser
+          or tap to choose · converts to MP3 in your browser
         </p>
         <input
           ref={inputRef}

@@ -8,6 +8,8 @@ import {
   Grid3x3,
   Hand,
   Hash,
+  MapPin,
+  MessageSquare,
   QrCode,
   Music2,
   Sparkles,
@@ -28,6 +30,8 @@ const map: Record<Exclude<ToolIconName, "dice">, LucideIcon> = {
   guess: Hash,
   tictactoe: Grid3x3,
   ip: Globe,
+  location: MapPin,
+  anon: MessageSquare,
 };
 
 /** Compact clay-style die glyph for tool headers / cards. */

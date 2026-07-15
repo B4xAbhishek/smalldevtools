@@ -10,7 +10,7 @@ export function useTrackToolVisit(slug: string) {
 
   useEffect(() => {
     setRecent((prev) => {
-      const next = [slug, ...prev.filter((s) => s !== slug)].slice(0, 12);
+      const next = [slug, ...prev.filter((s) => s !== slug)].slice(0, 4);
       return next;
     });
     track("tool_opened", { slug });

@@ -5,7 +5,8 @@ export default function manifest(): MetadataRoute.Manifest {
     id: "/",
     name: "TinyKit",
     short_name: "TinyKit",
-    description: "Free online mini tools — convert, cut, capture, create.",
+    description:
+      "Coin flip, WhatsApp audio to MP3, QR codes, 7 Up 7 Down, and more free tools.",
     start_url: "/",
     scope: "/",
     display: "standalone",

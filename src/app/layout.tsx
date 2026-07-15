@@ -11,11 +11,21 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} — Free online tools`,
+    default: `${SITE_NAME} — Coin Flip, WhatsApp Audio to MP3, QR Code & 7 Up 7 Down`,
     template: `%s | ${SITE_NAME}`,
   },
   description:
-    "Free browser tools: remove backgrounds, generate QR codes, extract audio, convert Opus to MP3, cut video, and more. No signup.",
+    "Free online coin flip / toss, WhatsApp audio (Opus) to MP3 converter, QR code generator, and 7 Up 7 Down game — plus more browser tools. No signup.",
+  keywords: [
+    "coin flip",
+    "coin toss",
+    "whatsapp audio to mp3",
+    "opus to mp3",
+    "qr code generator",
+    "7 up 7 down",
+    "7up 7down game",
+    "free online tools",
+  ],
   applicationName: SITE_NAME,
   icons: {
     icon: [
@@ -33,15 +43,16 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
-    title: `${SITE_NAME} — Free online tools`,
+    title: `${SITE_NAME} — Coin Flip, WhatsApp to MP3, QR & 7 Up 7 Down`,
     description:
-      "Free browser tools for everyday tasks. Privacy-friendly. No signup.",
+      "Coin toss, WhatsApp Opus to MP3, free QR codes, and 7 Up 7 Down — free browser tools. No signup.",
     url: SITE_URL,
   },
   twitter: {
     card: "summary",
-    title: `${SITE_NAME} — Free online tools`,
-    description: "Free browser tools for everyday tasks.",
+    title: `${SITE_NAME} — Coin Flip, WhatsApp to MP3, QR & 7 Up 7 Down`,
+    description:
+      "Free coin flip, WhatsApp audio to MP3, QR code generator, and 7 Up 7 Down game.",
   },
   robots: { index: true, follow: true },
 };
