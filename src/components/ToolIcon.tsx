@@ -4,15 +4,19 @@ import {
   CircleDot,
   Clapperboard,
   Eraser,
+  FileDiff,
   Globe,
   Grid3x3,
   Hand,
   Hash,
+  ImageDown,
   MapPin,
   MessageSquare,
+  Palette,
   QrCode,
   Music2,
   Sparkles,
+  Type,
   type LucideIcon,
 } from "lucide-react";
 import type { ToolIconName } from "@/lib/tools";
@@ -32,6 +36,10 @@ const map: Record<Exclude<ToolIconName, "dice">, LucideIcon> = {
   ip: Globe,
   location: MapPin,
   anon: MessageSquare,
+  color: Palette,
+  compress: ImageDown,
+  wordcount: Type,
+  diff: FileDiff,
 };
 
 /** Compact clay-style die glyph for tool headers / cards. */

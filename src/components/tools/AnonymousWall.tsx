@@ -1,8 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { Loader2, MessageSquarePlus, Send, X } from "lucide-react";
-import { useCallback, useEffect, useId, useRef, useState, type FormEvent } from "react";
+import { LayoutGrid, Loader2, Send, X } from "lucide-react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type FormEvent,
+} from "react";
 import { ANON_MAX_CHARS, containsBlockedLanguage } from "@/lib/anon-filter";
 import { track } from "@/lib/analytics";
 
@@ -30,7 +37,6 @@ export function AnonymousWall() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [badmosiOpen, setBadmosiOpen] = useState(false);
-  const dialogRef = useRef<HTMLDivElement>(null);
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const titleId = useId();
 
@@ -88,7 +94,6 @@ export function AnonymousWall() {
         post?: AnonPost;
         error?: string;
         code?: string;
-        image?: string;
       };
 
       if (res.status === 422 && data.code === "PROFANITY") {
@@ -112,8 +117,8 @@ export function AnonymousWall() {
   }
 
   return (
-    <div className="space-y-5">
-      <form onSubmit={onSubmit} className="space-y-3">
+    <div className="space-y-6">
+      <form onSubmit={onSubmit} className="mx-auto max-w-xl space-y-3">
         <label htmlFor="anon-post" className="block text-sm font-medium text-text">
           Say something anonymous
         </label>
@@ -131,7 +136,7 @@ export function AnonymousWall() {
           <span
             id="anon-count"
             className={`pointer-events-none absolute right-3 bottom-3 text-xs tabular-nums ${
-              remaining <= 10 ? "text-cta" : "text-text-muted"
+              remaining <= 10 ? "text-[#FF9F0A]" : "text-text-muted"
             }`}
           >
             {remaining}
@@ -144,51 +149,68 @@ export function AnonymousWall() {
         )}
         <button
           type="submit"
-          className="btn-primary inline-flex w-full items-center justify-center gap-2 sm:w-auto"
+          className="anon-post-btn group"
           disabled={submitting || !text.trim()}
         >
-          {submitting ? (
-            <Loader2 className="animate-spin" size={18} aria-hidden />
-          ) : (
-            <Send size={18} aria-hidden />
-          )}
-          {submitting ? "Posting…" : "Post anonymously"}
+          <span className="anon-post-btn__glow" aria-hidden />
+          <span className="relative z-[1] inline-flex items-center justify-center gap-2.5">
+            {submitting ? (
+              <Loader2 className="animate-spin" size={20} aria-hidden />
+            ) : (
+              <Send
+                size={20}
+                aria-hidden
+                className="transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              />
+            )}
+            {submitting ? "Posting…" : "Post anonymously"}
+          </span>
         </button>
       </form>
 
       <div>
         <p className="mb-3 flex items-center gap-1.5 text-xs font-medium uppercase tracking-wide text-text-muted">
-          <MessageSquarePlus size={12} aria-hidden />
+          <LayoutGrid size={12} aria-hidden />
           Latest posts
+          {posts.length > 0 && (
+            <span className="tabular-nums opacity-70">· {posts.length}</span>
+          )}
         </p>
 
         {loading ? (
-          <p className="flex items-center gap-2 text-sm text-text-muted">
-            <Loader2 className="animate-spin" size={16} aria-hidden />
+          <div className="flex h-40 items-center justify-center rounded-2xl border border-dashed border-border text-sm text-text-muted">
+            <Loader2 className="mr-2 animate-spin" size={16} aria-hidden />
             Loading…
-          </p>
+          </div>
         ) : posts.length === 0 ? (
-          <p className="rounded-xl border border-dashed border-border px-4 py-8 text-center text-sm text-text-muted">
-            No posts yet — be the first.
-          </p>
+          <div className="flex h-40 flex-col items-center justify-center rounded-2xl border border-dashed border-border px-4 text-center">
+            <p className="text-sm font-medium text-text">No posts yet</p>
+            <p className="mt-1 text-sm text-text-muted">Be the first.</p>
+          </div>
         ) : (
-          <ul className="space-y-2.5" aria-live="polite">
+          <ul
+            className="grid grid-cols-2 gap-2.5 sm:gap-3 md:grid-cols-4"
+            aria-live="polite"
+          >
             {posts.map((post) => (
-              <li
-                key={post.seq}
-                className="rounded-2xl border border-border bg-surface px-4 py-3.5 shadow-[var(--shadow-soft)] transition duration-200 ease-out hover:border-border-strong"
-              >
-                <div className="mb-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-text-muted">
-                  <span className="rounded-full bg-primary/15 px-2 py-0.5 font-medium tabular-nums text-primary">
-                    #{post.seq}
-                  </span>
-                  <span className="font-medium text-text">Anonymous</span>
-                  <span aria-hidden>·</span>
-                  <time dateTime={post.createdAt}>{formatDate(post.createdAt)}</time>
-                </div>
-                <p className="text-[15px] leading-relaxed break-words text-text">
-                  {post.text}
-                </p>
+              <li key={post.seq}>
+                <article className="anon-grid-card flex h-full min-h-[7.5rem] flex-col rounded-2xl border border-border bg-surface p-3 shadow-[var(--shadow-soft)] transition duration-200 hover:border-[color-mix(in_srgb,#ff9f0a_40%,var(--border))] sm:p-3.5">
+                  <div className="mb-2 flex flex-wrap items-center gap-x-1.5 gap-y-1 text-[11px] text-text-muted sm:text-xs">
+                    <span className="rounded-full bg-[#FF9F0A]/20 px-2 py-0.5 font-semibold tabular-nums text-[#FF9F0A]">
+                      #{post.seq}
+                    </span>
+                    <span className="font-medium text-text">Anonymous</span>
+                  </div>
+                  <p className="flex-1 text-sm leading-snug break-words text-text sm:text-[15px]">
+                    {post.text}
+                  </p>
+                  <time
+                    dateTime={post.createdAt}
+                    className="mt-2 block text-[10px] text-text-muted sm:text-[11px]"
+                  >
+                    {formatDate(post.createdAt)}
+                  </time>
+                </article>
               </li>
             ))}
           </ul>
@@ -202,7 +224,6 @@ export function AnonymousWall() {
           onClick={() => setBadmosiOpen(false)}
         >
           <div
-            ref={dialogRef}
             role="alertdialog"
             aria-modal="true"
             aria-labelledby={titleId}
@@ -239,7 +260,7 @@ export function AnonymousWall() {
               </p>
               <button
                 type="button"
-                className="btn-primary w-full cursor-pointer"
+                className="anon-post-btn"
                 onClick={() => setBadmosiOpen(false)}
               >
                 Got it

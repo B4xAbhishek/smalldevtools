@@ -6,11 +6,21 @@ import type { ToolMeta } from "@/lib/tools";
 import { ToolIcon } from "@/components/ToolIcon";
 
 export function ToolCard({ tool, index }: { tool: ToolMeta; index: number }) {
+  const mvp = Boolean(tool.mvp);
+
   return (
     <Link
       href={`/tools/${tool.slug}`}
-      className="soft-card group flex min-h-[7.5rem] flex-col p-3.5 transition duration-200 hover:shadow-[var(--shadow-lift)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.98] sm:min-h-0 sm:p-3"
-      style={{ animationDelay: `${Math.min(index, 8) * 30}ms` }}
+      className={`soft-card group flex min-h-[7.5rem] flex-col p-3.5 transition duration-200 hover:shadow-[var(--shadow-lift)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring active:scale-[0.98] sm:min-h-0 sm:p-3 ${mvp ? "soft-card-mvp" : ""}`}
+      style={{
+        animationDelay: `${Math.min(index, 8) * 30}ms`,
+        ...(mvp
+          ? {
+              background: `color-mix(in srgb, ${tool.accent} 14%, var(--surface))`,
+              borderColor: `color-mix(in srgb, ${tool.accent} 32%, var(--border))`,
+            }
+          : undefined),
+      }}
     >
       <div className="mb-2 flex items-center justify-between gap-2">
         <div
@@ -22,9 +32,21 @@ export function ToolCard({ tool, index }: { tool: ToolMeta; index: number }) {
         >
           <ToolIcon name={tool.icon} size={16} />
         </div>
-        <span className="truncate text-[10px] capitalize text-text-muted">
-          {tool.category}
-        </span>
+        {mvp ? (
+          <span
+            className="shrink-0 rounded-full px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-wide"
+            style={{
+              color: tool.accent,
+              backgroundColor: `color-mix(in srgb, ${tool.accent} 16%, transparent)`,
+            }}
+          >
+            MVP
+          </span>
+        ) : (
+          <span className="truncate text-[10px] capitalize text-text-muted">
+            {tool.category}
+          </span>
+        )}
       </div>
 
       <h2 className="text-[15px] font-medium leading-snug tracking-tight text-text">

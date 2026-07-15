@@ -19,6 +19,10 @@ import { TicTacToe } from "@/components/tools/TicTacToe";
 import { WhatsMyIp } from "@/components/tools/WhatsMyIp";
 import { WhatsMyLocation } from "@/components/tools/WhatsMyLocation";
 import { AnonymousWall } from "@/components/tools/AnonymousWall";
+import { ColorCodeConverter } from "@/components/tools/ColorCodeConverter";
+import { ImageCompressor } from "@/components/tools/ImageCompressor";
+import { WordCounter } from "@/components/tools/WordCounter";
+import { TextDiff } from "@/components/tools/TextDiff";
 import { getTool } from "@/lib/tools";
 import { ToolIcon } from "@/components/ToolIcon";
 
@@ -34,6 +38,14 @@ function ToolBody({ slug }: { slug: string }) {
       return <VideoCutter />;
     case "qr-code":
       return <QrCodeGenerator />;
+    case "color-code":
+      return <ColorCodeConverter />;
+    case "image-compressor":
+      return <ImageCompressor />;
+    case "word-counter":
+      return <WordCounter />;
+    case "text-diff":
+      return <TextDiff />;
     case "whats-my-ip":
       return <WhatsMyIp />;
     case "whats-my-location":
@@ -74,12 +86,14 @@ function ToolClientInner({ slug }: { slug: string }) {
 
   if (!tool) return null;
 
+  const wide = tool.slug === "anonymous-wall";
+
   return (
     <div
       className={
         embed
-          ? "mx-auto max-w-2xl p-3 sm:p-4"
-          : "mx-auto max-w-2xl px-3 py-5 sm:px-6 sm:py-10"
+          ? `mx-auto p-3 sm:p-4 ${wide ? "max-w-6xl" : "max-w-2xl"}`
+          : `mx-auto px-3 py-5 sm:px-6 sm:py-10 ${wide ? "max-w-6xl" : "max-w-2xl"}`
       }
     >
       {!embed && (

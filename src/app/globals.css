@@ -161,6 +161,161 @@ body {
   animation: pop-in 0.2s ease-out both;
 }
 
+/* Anonymous Wall — clay CTA + card stack */
+.anon-post-btn {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+  min-height: 52px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 980px;
+  border: none;
+  background: linear-gradient(135deg, #ffb340 0%, #ff9f0a 45%, #f08200 100%);
+  color: #1d1d1f;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.35) inset,
+    0 8px 24px rgba(255, 159, 10, 0.35),
+    0 2px 6px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.18s ease-out,
+    box-shadow 0.18s ease-out,
+    filter 0.18s ease-out;
+}
+
+.anon-post-btn__glow {
+  pointer-events: none;
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(
+    circle at 30% 30%,
+    rgba(255, 255, 255, 0.45),
+    transparent 55%
+  );
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.anon-post-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 12px 28px rgba(255, 159, 10, 0.42),
+    0 2px 8px rgba(0, 0, 0, 0.22);
+}
+
+.anon-post-btn:hover:not(:disabled) .anon-post-btn__glow {
+  opacity: 1;
+}
+
+.anon-post-btn:active:not(:disabled) {
+  transform: scale(0.97);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.25) inset,
+    0 4px 12px rgba(255, 159, 10, 0.3);
+}
+
+.anon-post-btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+}
+
+.anon-post-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  box-shadow: none;
+  filter: grayscale(0.2);
+}
+
+.anon-nav-btn {
+  display: inline-flex;
+  height: 36px;
+  width: 36px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--muted);
+  color: var(--text);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.anon-nav-btn:hover:not(:disabled) {
+  border-color: var(--border-strong);
+  background: var(--surface);
+}
+
+.anon-nav-btn:active:not(:disabled) {
+  transform: scale(0.94);
+}
+
+.anon-nav-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.anon-nav-btn:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.anon-stack {
+  position: relative;
+  min-height: 11.5rem;
+  padding-bottom: 1.25rem;
+}
+
+.anon-stack__card {
+  border-radius: 1.25rem;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 1.15rem 1.25rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.anon-stack__card--front {
+  position: relative;
+  min-height: 9.5rem;
+  border-color: color-mix(in srgb, #ff9f0a 35%, var(--border));
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    0 12px 32px rgba(0, 0, 0, 0.18),
+    0 0 0 1px color-mix(in srgb, #ff9f0a 18%, transparent);
+}
+
+.anon-stack__card--back {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  min-height: 8.5rem;
+  pointer-events: none;
+  transform: translateY(calc(var(--stack-depth, 1) * 10px))
+    scale(calc(1 - var(--stack-depth, 1) * 0.04));
+  opacity: calc(1 - var(--stack-depth, 1) * 0.22);
+  filter: brightness(0.92);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anon-post-btn,
+  .anon-post-btn:hover:not(:disabled),
+  .anon-post-btn:active:not(:disabled),
+  .anon-nav-btn,
+  .anon-stack__card--back {
+    transition: none;
+    transform: none;
+  }
+}
+
 .coin-spin {
   animation: spin-coin 1.35s cubic-bezier(0.2, 0.8, 0.2, 1);
   transform-style: preserve-3d;
@@ -171,6 +326,12 @@ body {
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: var(--shadow-soft);
+}
+
+.soft-card-mvp {
+  box-shadow:
+    var(--shadow-soft),
+    0 0 0 1px color-mix(in srgb, var(--primary) 8%, transparent);
 }
 
 @media (max-width: 399px) {

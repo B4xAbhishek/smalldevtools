@@ -21,7 +21,11 @@ export type ToolIconName =
   | "tictactoe"
   | "ip"
   | "location"
-  | "anon";
+  | "anon"
+  | "color"
+  | "compress"
+  | "wordcount"
+  | "diff";
 
 export type ToolMeta = {
   slug: string;
@@ -31,6 +35,8 @@ export type ToolMeta = {
   category: ToolCategory;
   icon: ToolIconName;
   accent: string;
+  /** Featured MVP tools — shown first with highlighted cards */
+  mvp?: boolean;
   /** Supports multi-file batch mode */
   batch?: boolean;
   /** Query keys that can be prefilled via URL (?key=) */
@@ -52,26 +58,49 @@ export const CATEGORIES: { id: "all" | ToolCategory; label: string }[] = [
   { id: "games", label: "Games" },
 ];
 
+/** Order matters: MVP tools first fill rows 1–2 on the home grid (4-col). */
 export const tools: ToolMeta[] = [
+  // —— MVP (first 2 rows) ——
   {
-    slug: "coin-flip",
-    name: "Coin Flip",
-    tagline: "Coin toss online",
+    slug: "anonymous-wall",
+    name: "Anonymous Wall",
+    tagline: "Post anything",
     description:
-      "Free online coin flip and coin toss — heads or tails in one tap. Fair random flips for decisions, games, or settling debates. No signup.",
-    category: "games",
-    icon: "coin",
+      "Drop a short anonymous note (max 50 characters). Posts show as Anonymous with a date and sequence number. Keep it civil.",
+    category: "social",
+    icon: "anon",
     accent: "#FF9F0A",
-    seoTitle: "Coin Flip Online — Free Coin Toss (Heads or Tails)",
+    mvp: true,
+    seoTitle: "Anonymous Wall — Post Anything Anonymously",
     seoPriority: 1,
     keywords: [
-      "coin flip",
-      "coin toss",
-      "toss a coin",
-      "heads or tails",
-      "online coin flip",
-      "virtual coin flip",
-      "flip a coin",
+      "anonymous",
+      "anonymous wall",
+      "anon post",
+      "confession",
+      "public board",
+      "social",
+    ],
+  },
+  {
+    slug: "image-compressor",
+    name: "Image Compressor",
+    tagline: "Shrink photos for WhatsApp",
+    description:
+      "Compress JPG, PNG, or WebP in your browser. Dial quality and max width, then download a smaller file — nothing uploaded to a server.",
+    category: "document",
+    icon: "compress",
+    accent: "#FF9F0A",
+    mvp: true,
+    seoTitle: "Image Compressor — Shrink Photos Free in Browser",
+    seoPriority: 1,
+    keywords: [
+      "image compressor",
+      "compress image",
+      "reduce image size",
+      "compress photo",
+      "whatsapp image size",
+      "jpg compressor",
     ],
   },
   {
@@ -83,6 +112,7 @@ export const tools: ToolMeta[] = [
     category: "audio",
     icon: "audio",
     accent: "#0071E3",
+    mvp: true,
     batch: true,
     seoTitle: "WhatsApp Audio to MP3 — Convert Opus Voice Notes Free",
     seoPriority: 1,
@@ -97,6 +127,28 @@ export const tools: ToolMeta[] = [
     ],
   },
   {
+    slug: "coin-flip",
+    name: "Coin Flip",
+    tagline: "Coin toss online",
+    description:
+      "Free online coin flip and coin toss — heads or tails in one tap. Fair random flips for decisions, games, or settling debates. No signup.",
+    category: "games",
+    icon: "coin",
+    accent: "#FF9F0A",
+    mvp: true,
+    seoTitle: "Coin Flip Online — Free Coin Toss (Heads or Tails)",
+    seoPriority: 1,
+    keywords: [
+      "coin flip",
+      "coin toss",
+      "toss a coin",
+      "heads or tails",
+      "online coin flip",
+      "virtual coin flip",
+      "flip a coin",
+    ],
+  },
+  {
     slug: "qr-code",
     name: "QR Code Generator",
     tagline: "Free QR codes",
@@ -105,6 +157,7 @@ export const tools: ToolMeta[] = [
     category: "utility",
     icon: "qr",
     accent: "#0A84FF",
+    mvp: true,
     shareParams: ["text"],
     seoTitle: "Free QR Code Generator — Create & Download PNG",
     seoPriority: 1,
@@ -118,6 +171,48 @@ export const tools: ToolMeta[] = [
     ],
   },
   {
+    slug: "word-counter",
+    name: "Word Counter",
+    tagline: "Words · characters · reading time",
+    description:
+      "Count words, characters, sentences, and paragraphs as you type. See reading time instantly — free, no signup.",
+    category: "utility",
+    icon: "wordcount",
+    accent: "#30D158",
+    mvp: true,
+    seoTitle: "Word Counter — Characters, Words & Reading Time",
+    seoPriority: 1,
+    keywords: [
+      "word counter",
+      "character counter",
+      "word count",
+      "character count",
+      "online word counter",
+      "reading time",
+    ],
+  },
+  {
+    slug: "text-diff",
+    name: "Text Diff",
+    tagline: "Compare two texts",
+    description:
+      "Paste two versions of text and see what changed line by line. Green for additions, red for removals — all in your browser.",
+    category: "utility",
+    icon: "diff",
+    accent: "#BF5AF2",
+    mvp: true,
+    seoTitle: "Text Diff — Compare Two Texts Online",
+    seoPriority: 1,
+    keywords: [
+      "text diff",
+      "compare text",
+      "diff checker",
+      "text comparison",
+      "find differences",
+      "online diff",
+    ],
+  },
+  {
     slug: "seven-up-down",
     name: "7 Up 7 Down",
     tagline: "Online dice game",
@@ -126,6 +221,7 @@ export const tools: ToolMeta[] = [
     category: "games",
     icon: "seven",
     accent: "#BF5AF2",
+    mvp: true,
     seoTitle: "7 Up 7 Down Game Online — Free Dice Prediction",
     seoPriority: 1,
     keywords: [
@@ -137,6 +233,29 @@ export const tools: ToolMeta[] = [
       "dice prediction game",
     ],
   },
+  {
+    slug: "color-code",
+    name: "Color Code",
+    tagline: "HEX · RGB · HSL",
+    description:
+      "Convert colors between HEX, RGB, HSL, and HSV instantly. Pick a color, copy any format, and share a link — all in your browser.",
+    category: "utility",
+    icon: "color",
+    accent: "#FF375F",
+    shareParams: ["hex"],
+    seoTitle: "Color Code Converter — HEX, RGB, HSL, HSV",
+    seoPriority: 1,
+    keywords: [
+      "color code",
+      "hex to rgb",
+      "rgb to hex",
+      "hsl converter",
+      "color converter",
+      "color picker",
+      "hex color",
+    ],
+  },
+  // —— Rest ——
   {
     slug: "extract-audio",
     name: "Extract Audio",
@@ -212,24 +331,6 @@ export const tools: ToolMeta[] = [
       "latitude",
       "longitude",
       "whats my location",
-    ],
-  },
-  {
-    slug: "anonymous-wall",
-    name: "Anonymous Wall",
-    tagline: "Post anything",
-    description:
-      "Drop a short anonymous note (max 50 characters). Posts show as Anonymous with a date and sequence number. Keep it civil.",
-    category: "social",
-    icon: "anon",
-    accent: "#FF9F0A",
-    keywords: [
-      "anonymous",
-      "anonymous wall",
-      "anon post",
-      "confession",
-      "public board",
-      "social",
     ],
   },
   {
