@@ -53,4 +53,6 @@ vercel env add MONGODB_URI production --scope b4xabhisheks-projects
 
 ## Deploy
 
-https://tinykit.vercel.app
+**Canonical URL:** https://tinykit.vercel.app
+
+Use TinyKit only — do not promote `smalldevtools.vercel.app` (it 301s to TinyKit).

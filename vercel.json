@@ -1,0 +1,32 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "smalldevtools.vercel.app" }],
+      "destination": "https://tinykit.vercel.app/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "smalldevtools-b4xabhisheks-projects.vercel.app"
+        }
+      ],
+      "destination": "https://tinykit.vercel.app/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "smalldevtools-b4xabhishek-b4xabhisheks-projects.vercel.app"
+        }
+      ],
+      "destination": "https://tinykit.vercel.app/:path*",
+      "permanent": true
+    }
+  ]
+}
